@@ -1,0 +1,54 @@
+# This confirms that the repo is properly documented according
+# to the information located in README-HEADER.md
+
+name: Document
+
+on:
+  pull_request:
+    # Run tests when PRs opened or updated
+    types: [opened, synchronize]
+    branches:
+      - main
+concurrency: document-${{ github.base_ref }}
+jobs:
+  document:
+    name: "Document"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v1
+
+      - name: Cache asdf
+        id: asdf-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
+
+      - name: Setup asdf
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
+        uses: asdf-vm/actions/install@v1
+
+      - name: "Generate documentation"
+        run: ./scripts/document.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Confirm"
+        run: |
+          if [[ "$(basename "$(git rev-parse --show-toplevel)")" != 'terraform-aws-template' ]]; then
+            echo "Setting core.fileMode to false to avoid false positives in documentation check."
+            git config core.fileMode false
+            if [[ -n $(git status --porcelain) ]]; then
+              echo "Documentation is not up to date. Run ./scripts/document.sh"
+              git status -v
+              git diff
+              exit 1
+            fi
+          fi

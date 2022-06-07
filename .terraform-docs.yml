@@ -1,0 +1,6 @@
+formatter: formatter
+header-from: README-HEADER.md
+
+sort:
+  enabled: true
+  by: required
