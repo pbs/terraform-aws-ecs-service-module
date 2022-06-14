@@ -17,7 +17,8 @@ locals {
   public_service                       = !local.create_virtual_node && var.public_service
   subnets                              = var.subnets != null ? var.subnets : var.public_service ? data.aws_subnets.public_subnets[0].ids : data.aws_subnets.private_subnets[0].ids
   lookup_hosted_zone                   = !local.create_virtual_node && local.app_dns_record_count > 0
-  lookup_primary_acm_wildcard_cert     = local.lookup_hosted_zone && local.public_service
+  lookup_primary_acm_wildcard_cert     = local.lookup_hosted_zone && local.public_service && var.acm_arn == null
+  acm_arn                              = var.acm_arn != null ? var.acm_arn : local.lookup_primary_acm_wildcard_cert ? data.aws_acm_certificate.primary_acm_wildcard_cert[0].arn : null
   hosted_zone                          = var.public_service ? var.primary_hosted_zone : var.private_hosted_zone
   null_safe_hosted_zone                = local.hosted_zone == null ? "" : local.hosted_zone
   hosted_zone_id                       = local.lookup_hosted_zone ? data.aws_route53_zone.hosted_zone[0].zone_id : null
@@ -26,7 +27,7 @@ locals {
   aliases                              = local.create_virtual_node ? [] : var.aliases != null ? var.aliases : ["${local.name}.${local.null_safe_hosted_zone}"]
   app_dns_record_count                 = local.create_lb ? length(local.cnames) : 0
   domain_name                          = !local.create_lb ? null : local.app_dns_record_count == 0 ? aws_lb.lb[0].dns_name : aws_route53_record.app[0].fqdn
-  create_lb_security_group             = local.create_lb && var.load_balancer_type == "application"
+  create_lb_sg                         = local.create_lb && var.load_balancer_type == "application"
   create_http_listeners                = local.create_lb && var.load_balancer_type == "application"
   create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && var.public_service
   only_create_http_listener            = local.create_http_listeners && !local.create_https_listeners
@@ -37,11 +38,11 @@ locals {
   create_target_group                  = local.create_lb
   create_cidr_access_rule              = length(var.restricted_cidr_blocks) > 0
   create_sg_access_rule                = var.restricted_sg != null
-  create_nlb_cidr_access_rule          = local.create_lb && !local.create_lb_security_group && local.create_cidr_access_rule
-  create_nlb_sg_access_rule            = local.create_lb && !local.create_lb_security_group && local.create_sg_access_rule
+  create_nlb_cidr_access_rule          = local.create_lb && !local.create_lb_sg && local.create_cidr_access_rule
+  create_nlb_sg_access_rule            = local.create_lb && !local.create_lb_sg && local.create_sg_access_rule
   create_virtual_node_cidr_access_rule = local.create_virtual_node && local.create_cidr_access_rule
   create_virtual_node_sg_access_rule   = local.create_virtual_node && local.create_sg_access_rule
-  lb_security_groups                   = local.create_lb_security_group ? [aws_security_group.lb_sg[0].id] : null
+  lb_security_groups                   = local.create_lb_sg ? [aws_security_group.lb_sg[0].id] : null
   container_protocol                   = var.load_balancer_type == "application" ? var.container_protocol : "TCP"
   healthcheck_protocol                 = var.healthcheck_protocol != null ? var.healthcheck_protocol : local.container_protocol
   healthcheck_matcher                  = var.load_balancer_type == "application" ? var.healthcheck_matcher : null

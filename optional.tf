@@ -497,3 +497,9 @@ variable "nlb_ssl_policy" {
   default     = "ELBSecurityPolicy-TLS13-1-2-2021-06"
   type        = string
 }
+
+variable "acm_arn" {
+  description = "ARN of the ACM certificate to use for the service. If null, one will be guessed based on the primary hosted zone of the service."
+  default     = null
+  type        = string
+}
