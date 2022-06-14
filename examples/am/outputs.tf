@@ -1,3 +1,3 @@
 output "domain_name" {
-  value = module.service.domain_name
+  value = module.virtual_gateway.domain_name
 }
