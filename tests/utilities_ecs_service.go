@@ -93,6 +93,11 @@ func testECSService(t *testing.T, variant string) {
 			},
 		}
 		terraform.Apply(t, terraformTargetMeshOptions)
+	}
+
+	terraform.Apply(t, terraformOptions)
+
+	if variant == "am" {
 		serviceIDV1 := terraform.Output(t, terraformOptions, "service_id_v1")
 		serviceIDV2 := terraform.Output(t, terraformOptions, "service_id_v2")
 
@@ -101,8 +106,6 @@ func testECSService(t *testing.T, variant string) {
 		defer deregisterService(serviceIDV1)
 		defer deregisterService(serviceIDV2)
 	}
-
-	terraform.Apply(t, terraformOptions)
 
 	if variant != "no-lb" {
 		domainName := terraform.Output(t, terraformOptions, "domain_name")
