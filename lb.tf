@@ -56,7 +56,7 @@ resource "aws_lb_listener" "https" {
   load_balancer_arn = aws_lb.lb[0].id
   port              = local.https_port
   protocol          = "HTTPS"
-  certificate_arn   = data.aws_acm_certificate.primary_acm_wildcard_cert[0].arn
+  certificate_arn   = local.acm_arn
   ssl_policy        = var.alb_ssl_policy
 
   # We 403 by default, unless one of the application rules below is met.
@@ -81,7 +81,7 @@ resource "aws_lb_listener" "nlb" {
   load_balancer_arn = aws_lb.lb[0].id
   port              = local.https_port
   protocol          = var.nlb_protocol
-  certificate_arn   = data.aws_acm_certificate.primary_acm_wildcard_cert[0].arn
+  certificate_arn   = local.acm_arn
   alpn_policy       = var.alpn_policy
   ssl_policy        = var.nlb_ssl_policy
 

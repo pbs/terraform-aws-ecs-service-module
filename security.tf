@@ -1,5 +1,5 @@
 resource "aws_security_group" "lb_sg" {
-  count       = local.create_lb_security_group ? 1 : 0
+  count       = local.create_lb_sg ? 1 : 0
   description = "Controls access to the ${local.name} load balancer"
 
   vpc_id      = local.vpc_id
@@ -12,7 +12,7 @@ resource "aws_security_group" "lb_sg" {
 }
 
 resource "aws_security_group_rule" "lb_egress" {
-  count             = local.create_lb_security_group ? 1 : 0
+  count             = local.create_lb_sg ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow all traffic out"
   type              = "egress"
@@ -27,7 +27,7 @@ resource "aws_security_group_rule" "lb_egress" {
 }
 
 resource "aws_security_group_rule" "user_to_lb_http_cidrs" {
-  count             = local.create_lb_security_group && local.create_cidr_access_rule ? 1 : 0
+  count             = local.create_lb_sg && local.create_cidr_access_rule ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow HTTP traffic from the user to the lb for specific CIDRs"
   type              = "ingress"
@@ -40,7 +40,7 @@ resource "aws_security_group_rule" "user_to_lb_http_cidrs" {
 }
 
 resource "aws_security_group_rule" "user_to_lb_http_sgs" {
-  count             = local.create_lb_security_group && local.create_sg_access_rule ? 1 : 0
+  count             = local.create_lb_sg && local.create_sg_access_rule ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow HTTP traffic from the user to the lb for specific SGs"
   type              = "ingress"
@@ -53,7 +53,7 @@ resource "aws_security_group_rule" "user_to_lb_http_sgs" {
 }
 
 resource "aws_security_group_rule" "user_to_lb_https_cidrs" {
-  count             = local.create_lb_security_group && local.create_cidr_access_rule ? 1 : 0
+  count             = local.create_lb_sg && local.create_cidr_access_rule ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow HTTPS traffic from the user to the lb"
   type              = "ingress"
@@ -66,7 +66,7 @@ resource "aws_security_group_rule" "user_to_lb_https_cidrs" {
 }
 
 resource "aws_security_group_rule" "user_to_lb_https_sgs" {
-  count             = local.create_lb_security_group && local.create_sg_access_rule ? 1 : 0
+  count             = local.create_lb_sg && local.create_sg_access_rule ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow HTTPS traffic from the user to the lb"
   type              = "ingress"
@@ -105,7 +105,7 @@ resource "aws_security_group_rule" "service_egress" {
 }
 
 resource "aws_security_group_rule" "lb_to_service" {
-  count             = local.create_lb_security_group ? 1 : 0
+  count             = local.create_lb_sg ? 1 : 0
   security_group_id = aws_security_group.service_sg.id
   description       = "Allow container port traffic from the lb to the ECS service"
   type              = "ingress"
@@ -118,7 +118,7 @@ resource "aws_security_group_rule" "lb_to_service" {
 }
 
 resource "aws_security_group_rule" "service_to_lb" {
-  count             = local.create_lb_security_group ? 1 : 0
+  count             = local.create_lb_sg ? 1 : 0
   security_group_id = aws_security_group.lb_sg[0].id
   description       = "Allow container port traffic from the ECS service to the lb"
   type              = "ingress"
