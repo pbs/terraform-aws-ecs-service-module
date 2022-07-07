@@ -1,6 +1,6 @@
 # TF Module Template
 
-Version: `x.y.z`
+Version: `0.0.2`
 
 This is the standard template for Terraform modules. This contains some useful scaffolding to create modules that are:
 
