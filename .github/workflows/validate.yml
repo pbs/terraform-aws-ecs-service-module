@@ -1,0 +1,39 @@
+# This confirms that the repo is properly validated according
+# to the information located in README-HEADER.md
+
+name: Validate
+
+on:
+  pull_request:
+    # Run tests when PRs opened or updated
+    types: [opened, synchronize]
+    branches:
+      - main
+concurrency: validate-${{ github.base_ref }}
+jobs:
+  validate:
+    name: "Validate"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v1
+
+      - name: Cache asdf
+        id: asdf-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.asdf/
+          key: ${{ runner.os }}-${{ hashFiles('**/.tool-versions') }}
+
+      - name: Setup asdf
+        if: steps.asdf-cache.outputs.cache-hit != 'true'
+        uses: asdf-vm/actions/install@v1
+
+      - name: "Validate Module"
+        run: ./scripts/validate.sh

@@ -1,0 +1,27 @@
+# This confirms that no TODOs have been left in the module.
+
+name: TODO
+
+on:
+  pull_request:
+    # Run tests when PRs opened or updated
+    types: [opened, synchronize]
+    branches:
+      - main
+concurrency: todo-${{ github.base_ref }}
+jobs:
+  todo:
+    name: "TODO"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: "Checkout"
+        uses: actions/checkout@main
+
+      - name: "TODO"
+        run: |
+          if [[ "$(basename $(git rev-parse --show-toplevel))" != 'terraform-aws-template' ]]; then
+            ./scripts/todo.sh
+          fi

@@ -1,0 +1,6 @@
+.terraform
+.DS_Store
+target
+CHANGELOG.md
+*.tfstate
+*.tfstate.backup
