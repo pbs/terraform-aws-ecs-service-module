@@ -5,6 +5,6 @@ set -euo pipefail
 IFS=$'\n\t'
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
-pushd "$GIT_ROOT" > /dev/null || exit 1
+pushd "$GIT_ROOT" >/dev/null || exit 1
 export AWS_DEFAULT_REGION='us-east-1'
 terraform fmt -recursive

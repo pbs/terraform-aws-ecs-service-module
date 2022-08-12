@@ -5,7 +5,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
-pushd "$GIT_ROOT" > /dev/null
+pushd "$GIT_ROOT" >/dev/null
 export AWS_DEFAULT_REGION='us-east-1'
 terraform init -backend=false
 terraform validate
