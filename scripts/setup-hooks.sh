@@ -4,11 +4,10 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-
 GIT_ROOT=$(git rev-parse --show-toplevel)
 
 create_general_hooks() {
-cat <<'EOF' >> "$GIT_ROOT"/.git/hooks/pre-commit
+    cat <<'EOF' >>"$GIT_ROOT"/.git/hooks/pre-commit
 # terraform-aws-template-hooks
 GIT_ROOT=$(git rev-parse --show-toplevel)
 "$GIT_ROOT"/scripts/validate.sh
@@ -18,7 +17,7 @@ EOF
 }
 
 add_non_template_hook() {
-    echo '"$GIT_ROOT"/scripts/document.sh' >> "$GIT_ROOT"/.git/hooks/pre-commit
+    echo '"$GIT_ROOT"/scripts/document.sh' >>"$GIT_ROOT"/.git/hooks/pre-commit
 }
 
 get_mod_name() {

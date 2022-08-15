@@ -16,16 +16,16 @@ declare -A REPLACEMENT_KEYS=(
     ["MOD_SHORTNAME"]="$MOD_SHORTNAME"
 )
 
-pushd "$GIT_ROOT" > /dev/null
+pushd "$GIT_ROOT" >/dev/null
 BOILERPLATE_FILES=$(fd -tf -E wizard.sh -c never .)
 
 for BOILERPLATE_FILE in $BOILERPLATE_FILES; do
     for REPLACEMENT_KEY in "${!REPLACEMENT_KEYS[@]}"; do
-        if command -v sd > /dev/null; then
+        if command -v sd >/dev/null; then
             sd "$REPLACEMENT_KEY" "${REPLACEMENT_KEYS[$REPLACEMENT_KEY]}" "$BOILERPLATE_FILE"
         else
             tmp="$(mktemp)"
-            sed "s/$REPLACEMENT_KEY/${REPLACEMENT_KEYS[$REPLACEMENT_KEY]}/g" "$BOILERPLATE_FILE" > "$tmp"
+            sed "s/$REPLACEMENT_KEY/${REPLACEMENT_KEYS[$REPLACEMENT_KEY]}/g" "$BOILERPLATE_FILE" >"$tmp"
             mv "$tmp" "$BOILERPLATE_FILE"
         fi
     done
