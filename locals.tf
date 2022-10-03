@@ -48,7 +48,6 @@ locals {
   healthcheck_matcher                  = var.load_balancer_type == "application" ? var.healthcheck_matcher : null
   healthcheck_timeout                  = var.load_balancer_type == "application" ? var.healthcheck_timeout : null
   healthcheck_path                     = var.healthcheck_path != null ? var.healthcheck_path : local.create_virtual_node ? "/" : var.load_balancer_type == "application" ? "/" : null
-  role_policy_json                     = var.role_policy_json != null ? var.role_policy_json : data.aws_iam_policy_document.default_role_policy_json.json
   enable_execute_command               = var.enable_execute_command != null ? var.enable_execute_command : var.environment != "prod"
   min_capacity                         = var.environment == "prod" ? var.prod_min_capacity != null ? var.prod_min_capacity : var.min_capacity : var.min_capacity
   max_capacity                         = var.environment == "prod" ? var.prod_max_capacity != null ? var.prod_max_capacity : var.max_capacity : var.max_capacity
