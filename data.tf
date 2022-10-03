@@ -39,7 +39,3 @@ data "aws_acm_certificate" "primary_acm_wildcard_cert" {
   count  = local.lookup_primary_acm_wildcard_cert ? 1 : 0
   domain = "*.${var.primary_hosted_zone}"
 }
-
-data "aws_caller_identity" "current" {}
-
-data "aws_region" "current" {}
