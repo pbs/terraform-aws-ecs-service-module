@@ -82,6 +82,28 @@ variable "scaling_evaluation_periods" {
   type        = number
 }
 
+variable "scaling_approach" {
+  description = "Approach to take with scaling. Valid values are `target_tracking` and `step_scaling`"
+  default     = "target_tracking"
+  type        = string
+  validation {
+    condition     = contains(["target_tracking", "step_scaling"], var.scaling_approach)
+    error_message = "Scaling approach must be either `target_tracking` or `step_scaling`."
+  }
+}
+
+variable "target_cpu_utilization" {
+  description = "Target CPU utilization for scaling"
+  default     = 50
+  type        = number
+}
+
+variable "target_memory_utilization" {
+  description = "Target memory utilization for scaling"
+  default     = 50
+  type        = number
+}
+
 variable "scale_up_cpu_threshold" {
   description = "Threshold at which CPU utilization triggers a scale up event"
   default     = 80

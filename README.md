@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=1.0.0
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -24,7 +24,7 @@ Integrate this module like so:
 
 ```hcl
 module "ecs-service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=1.0.0"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   primary_hosted_zone = "example.com"
@@ -45,7 +45,7 @@ module "ecs-service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`1.0.0`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -81,6 +81,8 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Type |
 |------|------|
+| [aws_appautoscaling_policy.cpu_autoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_policy.memory_autoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.scale_down_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.scale_up_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_target.autoscaling_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
@@ -204,6 +206,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_scale_up_cooldown"></a> [scale\_up\_cooldown](#input\_scale\_up\_cooldown) | Scale up cooldown in minutes | `number` | `1` | no |
 | <a name="input_scale_up_cpu_threshold"></a> [scale\_up\_cpu\_threshold](#input\_scale\_up\_cpu\_threshold) | Threshold at which CPU utilization triggers a scale up event | `number` | `80` | no |
 | <a name="input_scale_up_memory_threshold"></a> [scale\_up\_memory\_threshold](#input\_scale\_up\_memory\_threshold) | Threshold at which Memory utilization triggers a scale up event | `number` | `80` | no |
+| <a name="input_scaling_approach"></a> [scaling\_approach](#input\_scaling\_approach) | Approach to take with scaling. Valid values are `target_tracking` and `step_scaling` | `string` | `"target_tracking"` | no |
 | <a name="input_scaling_evaluation_period"></a> [scaling\_evaluation\_period](#input\_scaling\_evaluation\_period) | Scaling evaluation period in seconds | `number` | `60` | no |
 | <a name="input_scaling_evaluation_periods"></a> [scaling\_evaluation\_periods](#input\_scaling\_evaluation\_periods) | Number of periods over which data is compared to the threshold | `number` | `1` | no |
 | <a name="input_service_healthcheck_healthy_threshold"></a> [service\_healthcheck\_healthy\_threshold](#input\_service\_healthcheck\_healthy\_threshold) | The number of successful checks before a service is considered healthy | `number` | `2` | no |
@@ -213,7 +216,9 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | path to the ssm parameters you want pulled into your container during execution of the entrypoint. | `string` | `null` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets for the service. If null, private and public subnets will be looked up based on environment tag and one will be selected based on public\_service. | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Extra tags | `map(string)` | `{}` | no |
+| <a name="input_target_cpu_utilization"></a> [target\_cpu\_utilization](#input\_target\_cpu\_utilization) | Target CPU utilization for scaling | `number` | `50` | no |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Target group name. Will default to product if not defined. | `string` | `null` | no |
+| <a name="input_target_memory_utilization"></a> [target\_memory\_utilization](#input\_target\_memory\_utilization) | Target memory utilization for scaling | `number` | `50` | no |
 | <a name="input_task_def_arn"></a> [task\_def\_arn](#input\_task\_def\_arn) | Task definition ARN. If null, task will be created with default values, except that image\_repo and image\_tag may be defined. | `string` | `null` | no |
 | <a name="input_task_family"></a> [task\_family](#input\_task\_family) | Name to use for the task family of the task definition associated with this service. By default, uses name. | `string` | `null` | no |
 | <a name="input_virtual_gateway"></a> [virtual\_gateway](#input\_virtual\_gateway) | the name of the virtual gateway associated with this task definition. Only populate if this is an envoy service. | `string` | `null` | no |
