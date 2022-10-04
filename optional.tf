@@ -34,18 +34,6 @@ variable "max_capacity" {
   type        = number
 }
 
-variable "prod_min_capacity" {
-  description = "Defining a value here will result in a change in min_capacity when environment = prod"
-  default     = null
-  type        = number
-}
-
-variable "prod_max_capacity" {
-  description = "Defining a value here will result in a change in min_capacity when environment = prod"
-  default     = null
-  type        = number
-}
-
 variable "scale_up_cooldown" {
   description = "Scale up cooldown in minutes"
   default     = 1
