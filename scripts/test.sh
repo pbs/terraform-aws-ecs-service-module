@@ -5,5 +5,5 @@ set -euo pipefail
 IFS=$'\n\t'
 
 GIT_ROOT=$(git rev-parse --show-toplevel)
-pushd "$GIT_ROOT"/tests > /dev/null || exit 1
+pushd "$GIT_ROOT"/tests >/dev/null || exit 1
 go test -timeout 45m -count=1 -parallel 10 ./...
