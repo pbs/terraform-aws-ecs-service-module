@@ -3,6 +3,11 @@ output "name" {
   value       = local.name
 }
 
+output "arn" {
+  description = "ARN of the service"
+  value       = aws_ecs_service.service.id
+}
+
 output "service_id" {
   description = "CloudMap Service ID"
   value       = local.cloudmap_service_id
