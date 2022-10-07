@@ -81,6 +81,8 @@ Below is automatically generated documentation on this Terraform module using [t
 
 | Name | Type |
 |------|------|
+| [aws_appautoscaling_policy.cpu_autoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
+| [aws_appautoscaling_policy.memory_autoscaling_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.scale_down_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_policy.scale_up_policy](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_policy) | resource |
 | [aws_appautoscaling_target.autoscaling_target](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/appautoscaling_target) | resource |
@@ -188,8 +190,6 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | The platform version on which to run your service | `string` | `"LATEST"` | no |
 | <a name="input_primary_hosted_zone"></a> [primary\_hosted\_zone](#input\_primary\_hosted\_zone) | Name of the primary hosted zone for DNS. e.g. primary\_hosted\_zone = example.org --> service.example.org. If null, it is assumed that a private hosted zone will be used. | `string` | `null` | no |
 | <a name="input_private_hosted_zone"></a> [private\_hosted\_zone](#input\_private\_hosted\_zone) | Name of the private hosted zone for DNS. e.g. private\_hosted\_zone = example.org --> service.example.private. If null, it is assumed that a public hosted zone will be used. | `string` | `null` | no |
-| <a name="input_prod_max_capacity"></a> [prod\_max\_capacity](#input\_prod\_max\_capacity) | Defining a value here will result in a change in min\_capacity when environment = prod | `number` | `null` | no |
-| <a name="input_prod_min_capacity"></a> [prod\_min\_capacity](#input\_prod\_min\_capacity) | Defining a value here will result in a change in min\_capacity when environment = prod | `number` | `null` | no |
 | <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | Specifies whether to propagate the tags from the task definition or the service to the tasks | `string` | `"SERVICE"` | no |
 | <a name="input_public_service"></a> [public\_service](#input\_public\_service) | Service should be provisioned in public subnet. Ignored if subnets defined. | `bool` | `true` | no |
 | <a name="input_redis_sg_ids"></a> [redis\_sg\_ids](#input\_redis\_sg\_ids) | Redis Security group IDs | `set(string)` | `[]` | no |
@@ -204,6 +204,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_scale_up_cooldown"></a> [scale\_up\_cooldown](#input\_scale\_up\_cooldown) | Scale up cooldown in minutes | `number` | `1` | no |
 | <a name="input_scale_up_cpu_threshold"></a> [scale\_up\_cpu\_threshold](#input\_scale\_up\_cpu\_threshold) | Threshold at which CPU utilization triggers a scale up event | `number` | `80` | no |
 | <a name="input_scale_up_memory_threshold"></a> [scale\_up\_memory\_threshold](#input\_scale\_up\_memory\_threshold) | Threshold at which Memory utilization triggers a scale up event | `number` | `80` | no |
+| <a name="input_scaling_approach"></a> [scaling\_approach](#input\_scaling\_approach) | Approach to take with scaling. Valid values are `target_tracking` and `step_scaling` | `string` | `"target_tracking"` | no |
 | <a name="input_scaling_evaluation_period"></a> [scaling\_evaluation\_period](#input\_scaling\_evaluation\_period) | Scaling evaluation period in seconds | `number` | `60` | no |
 | <a name="input_scaling_evaluation_periods"></a> [scaling\_evaluation\_periods](#input\_scaling\_evaluation\_periods) | Number of periods over which data is compared to the threshold | `number` | `1` | no |
 | <a name="input_service_healthcheck_healthy_threshold"></a> [service\_healthcheck\_healthy\_threshold](#input\_service\_healthcheck\_healthy\_threshold) | The number of successful checks before a service is considered healthy | `number` | `2` | no |
@@ -213,7 +214,9 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | path to the ssm parameters you want pulled into your container during execution of the entrypoint. | `string` | `null` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets for the service. If null, private and public subnets will be looked up based on environment tag and one will be selected based on public\_service. | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Extra tags | `map(string)` | `{}` | no |
+| <a name="input_target_cpu_utilization"></a> [target\_cpu\_utilization](#input\_target\_cpu\_utilization) | Target CPU utilization for scaling | `number` | `50` | no |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Target group name. Will default to product if not defined. | `string` | `null` | no |
+| <a name="input_target_memory_utilization"></a> [target\_memory\_utilization](#input\_target\_memory\_utilization) | Target memory utilization for scaling | `number` | `50` | no |
 | <a name="input_task_def_arn"></a> [task\_def\_arn](#input\_task\_def\_arn) | Task definition ARN. If null, task will be created with default values, except that image\_repo and image\_tag may be defined. | `string` | `null` | no |
 | <a name="input_task_family"></a> [task\_family](#input\_task\_family) | Name to use for the task family of the task definition associated with this service. By default, uses name. | `string` | `null` | no |
 | <a name="input_virtual_gateway"></a> [virtual\_gateway](#input\_virtual\_gateway) | the name of the virtual gateway associated with this task definition. Only populate if this is an envoy service. | `string` | `null` | no |

@@ -8,4 +8,3 @@ resource "aws_service_discovery_service" "service" {
     { Name = "${local.name} Cloud Map Service" }
   )
 }
-
