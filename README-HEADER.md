@@ -1,4 +1,4 @@
-# PBS TF ecs service module
+# PBS TF ECS Service Module
 
 ## Installation
 
