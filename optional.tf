@@ -34,18 +34,6 @@ variable "max_capacity" {
   type        = number
 }
 
-variable "prod_min_capacity" {
-  description = "Defining a value here will result in a change in min_capacity when environment = prod"
-  default     = null
-  type        = number
-}
-
-variable "prod_max_capacity" {
-  description = "Defining a value here will result in a change in min_capacity when environment = prod"
-  default     = null
-  type        = number
-}
-
 variable "scale_up_cooldown" {
   description = "Scale up cooldown in minutes"
   default     = 1
@@ -79,6 +67,28 @@ variable "scaling_evaluation_period" {
 variable "scaling_evaluation_periods" {
   description = "Number of periods over which data is compared to the threshold"
   default     = 1
+  type        = number
+}
+
+variable "scaling_approach" {
+  description = "Approach to take with scaling. Valid values are `target_tracking` and `step_scaling`"
+  default     = "target_tracking"
+  type        = string
+  validation {
+    condition     = contains(["target_tracking", "step_scaling"], var.scaling_approach)
+    error_message = "Scaling approach must be either `target_tracking` or `step_scaling`."
+  }
+}
+
+variable "target_cpu_utilization" {
+  description = "Target CPU utilization for scaling"
+  default     = 50
+  type        = number
+}
+
+variable "target_memory_utilization" {
+  description = "Target memory utilization for scaling"
+  default     = 50
   type        = number
 }
 
