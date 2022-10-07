@@ -174,6 +174,7 @@ module "service_v2" {
   virtual_node    = "ex-service-v2"
   virtual_service = module.virtual_service.name
 
+  namespace    = var.product
   namespace_id = module.namespace.id
 
   organization = var.organization

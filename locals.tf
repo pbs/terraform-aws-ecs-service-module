@@ -49,9 +49,7 @@ locals {
   healthcheck_timeout                  = var.load_balancer_type == "application" ? var.healthcheck_timeout : null
   healthcheck_path                     = var.healthcheck_path != null ? var.healthcheck_path : local.create_virtual_node ? "/" : var.load_balancer_type == "application" ? "/" : null
   enable_execute_command               = var.enable_execute_command != null ? var.enable_execute_command : var.environment != "prod"
-  min_capacity                         = var.environment == "prod" ? var.prod_min_capacity != null ? var.prod_min_capacity : var.min_capacity : var.min_capacity
-  max_capacity                         = var.environment == "prod" ? var.prod_max_capacity != null ? var.prod_max_capacity : var.max_capacity : var.max_capacity
-  desired_count                        = local.min_capacity
+  desired_count                        = var.min_capacity
   deployment_maximum_percent           = local.desired_count == 1 ? 200 : var.deployment_maximum_percent # This is to avoid a bug where deployments can't happen because we can't have 1.5 tasks for a service
   create_virtual_node                  = var.virtual_node != null
   virtual_node_name                    = local.create_virtual_node ? aws_appmesh_virtual_node.virtual_node[0].name : null
