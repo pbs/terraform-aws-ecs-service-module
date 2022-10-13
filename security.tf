@@ -117,19 +117,6 @@ resource "aws_security_group_rule" "lb_to_service" {
   source_security_group_id = aws_security_group.lb_sg[0].id
 }
 
-resource "aws_security_group_rule" "service_to_lb" {
-  count             = local.create_lb_sg ? 1 : 0
-  security_group_id = aws_security_group.lb_sg[0].id
-  description       = "Allow container port traffic from the ECS service to the lb"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = var.container_port
-  to_port   = var.container_port
-
-  source_security_group_id = aws_security_group.service_sg.id
-}
-
 resource "aws_security_group_rule" "service_to_mysql" {
   for_each          = var.mysql_sg_ids
   security_group_id = each.value
@@ -167,45 +154,6 @@ resource "aws_security_group_rule" "service_to_memcached" {
   to_port   = local.memcached_port
 
   source_security_group_id = aws_security_group.service_sg.id
-}
-
-resource "aws_security_group_rule" "mysql_to_service" {
-  for_each          = var.mysql_sg_ids
-  security_group_id = aws_security_group.service_sg.id
-  description       = "Allow MySQL traffic from the DB to the service"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.mysql_port
-  to_port   = local.mysql_port
-
-  source_security_group_id = each.value
-}
-
-resource "aws_security_group_rule" "redis_to_service" {
-  for_each          = var.redis_sg_ids
-  security_group_id = aws_security_group.service_sg.id
-  description       = "Allow Redis traffic from the cluster to the ECS service"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.redis_port
-  to_port   = local.redis_port
-
-  source_security_group_id = each.value
-}
-
-resource "aws_security_group_rule" "memcached_to_service" {
-  for_each          = var.memcached_sg_ids
-  security_group_id = aws_security_group.service_sg.id
-  description       = "Allow Memcached traffic from the cluster to the ECS service"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.memcached_port
-  to_port   = local.memcached_port
-
-  source_security_group_id = each.value
 }
 
 resource "aws_security_group_rule" "nlb_service_access_cidr" {
