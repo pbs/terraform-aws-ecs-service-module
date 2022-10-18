@@ -33,6 +33,14 @@ module "task" {
   newrelic_secret_arn  = var.newrelic_secret_arn
   newrelic_secret_name = var.newrelic_secret_name
 
+  use_xray_sidecar = var.use_xray_sidecar
+
+  envoy_tag = var.envoy_tag
+
+  network_mode             = var.network_mode
+  requires_compatibilities = var.requires_compatibilities
+  container_definitions    = var.container_definitions
+
   organization = var.organization
   environment  = var.environment
   product      = var.product

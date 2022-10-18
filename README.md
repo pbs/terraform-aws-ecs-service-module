@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=2.1.2
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -24,7 +24,7 @@ Integrate this module like so:
 
 ```hcl
 module "ecs-service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=2.1.2"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   primary_hosted_zone = "example.com"
@@ -45,7 +45,7 @@ module "ecs-service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`2.1.2`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -141,22 +141,24 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Assign public IP to the service | `bool` | `true` | no |
 | <a name="input_cluster"></a> [cluster](#input\_cluster) | Name of the ECS Cluster this service runs in. If null, one will be created based on the product | `string` | `null` | no |
 | <a name="input_cnames"></a> [cnames](#input\_cnames) | CNAME(s) that are going to be created for this service in the primary\_hosted\_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [product] --> [product.example.com] | `list(string)` | `null` | no |
-| <a name="input_command"></a> [command](#input\_command) | command to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set a command in the task definition. | `list(string)` | `null` | no |
-| <a name="input_container_name"></a> [container\_name](#input\_container\_name) | name of the primary container for this service. Defaults to local.name if null. | `string` | `null` | no |
-| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | Port the container will expose | `number` | `80` | no |
+| <a name="input_command"></a> [command](#input\_command) | (optional) command to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set a command in the task definition. | `list(string)` | `null` | no |
+| <a name="input_container_definitions"></a> [container\_definitions](#input\_container\_definitions) | (optional) JSON container definitions for task | `string` | `null` | no |
+| <a name="input_container_name"></a> [container\_name](#input\_container\_name) | (optional) name for the container to have | `string` | `null` | no |
+| <a name="input_container_port"></a> [container\_port](#input\_container\_port) | (optional) port the container is exposing | `number` | `80` | no |
 | <a name="input_container_protocol"></a> [container\_protocol](#input\_container\_protocol) | Protocol to use in connection to the container | `string` | `"HTTP"` | no |
-| <a name="input_cpu_reservation"></a> [cpu\_reservation](#input\_cpu\_reservation) | CPU reservation for task | `number` | `256` | no |
+| <a name="input_cpu_reservation"></a> [cpu\_reservation](#input\_cpu\_reservation) | (optional) CPU reservation for task | `number` | `256` | no |
 | <a name="input_create_lb"></a> [create\_lb](#input\_create\_lb) | Create load balancer for service. If creating a virtual node, will ignore value. | `bool` | `true` | no |
 | <a name="input_deployment_maximum_percent"></a> [deployment\_maximum\_percent](#input\_deployment\_maximum\_percent) | The upper limit (as a percentage of the service's desiredCount) of the number of running tasks that can be running in a service during a deployment | `number` | `150` | no |
 | <a name="input_deployment_minimum_healthy_percent"></a> [deployment\_minimum\_healthy\_percent](#input\_deployment\_minimum\_healthy\_percent) | The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment | `number` | `100` | no |
 | <a name="input_dns_evaluate_target_health"></a> [dns\_evaluate\_target\_health](#input\_dns\_evaluate\_target\_health) | evaluate health of endpoints by querying DNS records | `bool` | `false` | no |
-| <a name="input_efs_mounts"></a> [efs\_mounts](#input\_efs\_mounts) | efs mount map. Components should include dns\_name, container\_mount\_point, efs\_mount\_point | <pre>list(object({<br>    file_system_id = string<br>    efs_path       = string<br>    container_path = string<br>  }))</pre> | `[]` | no |
+| <a name="input_efs_mounts"></a> [efs\_mounts](#input\_efs\_mounts) | (optional) efs mount set of objects. Components should include dns\_name, container\_mount\_point, efs\_mount\_point | <pre>set(object({<br>    file_system_id = string<br>    efs_path       = string<br>    container_path = string<br>  }))</pre> | `[]` | no |
 | <a name="input_efs_sg_ids"></a> [efs\_sg\_ids](#input\_efs\_sg\_ids) | EFS Security group IDs | `set(string)` | `[]` | no |
 | <a name="input_enable_circuit_breaker"></a> [enable\_circuit\_breaker](#input\_enable\_circuit\_breaker) | Enables ECS circuit breaker | `bool` | `true` | no |
 | <a name="input_enable_circuit_breaker_rollback"></a> [enable\_circuit\_breaker\_rollback](#input\_enable\_circuit\_breaker\_rollback) | Enables ECS circuit breaker rollback | `bool` | `true` | no |
 | <a name="input_enable_execute_command"></a> [enable\_execute\_command](#input\_enable\_execute\_command) | Enables `ecs exec`. If null, will enable if not on prod | `bool` | `null` | no |
-| <a name="input_entrypoint"></a> [entrypoint](#input\_entrypoint) | entrypoint to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set an entrypoint in the task definition. | `list(string)` | `null` | no |
-| <a name="input_env_vars"></a> [env\_vars](#input\_env\_vars) | environment variables to be passed to the container. By default, only passes SSM\_PATH | `list(map(any))` | `null` | no |
+| <a name="input_entrypoint"></a> [entrypoint](#input\_entrypoint) | (optional) entrypoint to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set an entrypoint in the task definition. | `list(string)` | `null` | no |
+| <a name="input_env_vars"></a> [env\_vars](#input\_env\_vars) | (optional) environment variables to be passed to the container. By default, only passes SSM\_PATH | `set(map(any))` | `null` | no |
+| <a name="input_envoy_tag"></a> [envoy\_tag](#input\_envoy\_tag) | (optional) tag for envoy. Update periodically if using App Mesh. | `string` | `"v1.23.1.0-prod"` | no |
 | <a name="input_healthcheck_healthy_threshold"></a> [healthcheck\_healthy\_threshold](#input\_healthcheck\_healthy\_threshold) | The number of consecutive health checks successes required before considering an unhealthy target healthy | `number` | `3` | no |
 | <a name="input_healthcheck_interval"></a> [healthcheck\_interval](#input\_healthcheck\_interval) | The approximate amount of time, in seconds, between health checks of an individual target | `number` | `10` | no |
 | <a name="input_healthcheck_matcher"></a> [healthcheck\_matcher](#input\_healthcheck\_matcher) | The HTTP codes to use when checking for a successful response from a target | `number` | `200` | no |
@@ -164,21 +166,22 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_healthcheck_protocol"></a> [healthcheck\_protocol](#input\_healthcheck\_protocol) | The protocol to use to connect with the target | `string` | `null` | no |
 | <a name="input_healthcheck_timeout"></a> [healthcheck\_timeout](#input\_healthcheck\_timeout) | The amount of time, in seconds, during which no response means a failed health check | `number` | `6` | no |
 | <a name="input_healthcheck_unhealthy_threshold"></a> [healthcheck\_unhealthy\_threshold](#input\_healthcheck\_unhealthy\_threshold) | The number of consecutive health check failures required before considering the target unhealthy | `number` | `3` | no |
-| <a name="input_image_repo"></a> [image\_repo](#input\_image\_repo) | Image repo. e.g. image\_repo = nginx --> nginx:image\_tag. Ignored if task\_def\_arn is defined. | `string` | `"nginx"` | no |
-| <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | Tag of the image. e.g. image\_tag = latest --> image\_repo:latest. Ignored if task\_def\_arn is defined. | `string` | `"alpine"` | no |
+| <a name="input_image_repo"></a> [image\_repo](#input\_image\_repo) | (optional) image repo. e.g. image\_repo = nginx --> nginx:image\_tag | `string` | `"nginx"` | no |
+| <a name="input_image_tag"></a> [image\_tag](#input\_image\_tag) | (optional) tag of the image. e.g. image\_tag = latest --> image\_repo:latest | `string` | `"alpine"` | no |
 | <a name="input_internal"></a> [internal](#input\_internal) | Use an internal load balancer. If null, will be internal when the service is private. | `bool` | `null` | no |
 | <a name="input_launch_type"></a> [launch\_type](#input\_launch\_type) | The launch type on which to run your service | `string` | `"FARGATE"` | no |
 | <a name="input_load_balancer_name"></a> [load\_balancer\_name](#input\_load\_balancer\_name) | Load balancer name. Will default to product if not defined. | `string` | `null` | no |
 | <a name="input_load_balancer_type"></a> [load\_balancer\_type](#input\_load\_balancer\_type) | Type of load balancer to use. alb, nlb or gateway. | `string` | `"application"` | no |
 | <a name="input_max_capacity"></a> [max\_capacity](#input\_max\_capacity) | The maximum capacity of tasks for this service | `number` | `2` | no |
 | <a name="input_memcached_sg_ids"></a> [memcached\_sg\_ids](#input\_memcached\_sg\_ids) | Memcached Security group IDs | `set(string)` | `[]` | no |
-| <a name="input_memory_reservation"></a> [memory\_reservation](#input\_memory\_reservation) | memory reservation for task | `number` | `512` | no |
-| <a name="input_mesh_name"></a> [mesh\_name](#input\_mesh\_name) | the name for the App Mesh this service is task is associated with. Only populate if this is an envoy service. | `string` | `null` | no |
+| <a name="input_memory_reservation"></a> [memory\_reservation](#input\_memory\_reservation) | (optional) memory reservation for task | `number` | `512` | no |
+| <a name="input_mesh_name"></a> [mesh\_name](#input\_mesh\_name) | (optional) the name for the App Mesh this task is associated with. If null, ignored | `string` | `null` | no |
 | <a name="input_min_capacity"></a> [min\_capacity](#input\_min\_capacity) | The minimum capacity of tasks for this service | `number` | `1` | no |
 | <a name="input_mysql_sg_ids"></a> [mysql\_sg\_ids](#input\_mysql\_sg\_ids) | MySQL DB Security group IDs | `set(string)` | `[]` | no |
 | <a name="input_name"></a> [name](#input\_name) | Name of the service. Will default to product if not defined. | `string` | `null` | no |
 | <a name="input_namespace"></a> [namespace](#input\_namespace) | Namespace. If null, defaults to `var.application-tag`. | `string` | `null` | no |
 | <a name="input_namespace_id"></a> [namespace\_id](#input\_namespace\_id) | Namespace ID. | `string` | `null` | no |
+| <a name="input_network_mode"></a> [network\_mode](#input\_network\_mode) | (optional) network mode for the task | `string` | `"awsvpc"` | no |
 | <a name="input_newrelic_secret_arn"></a> [newrelic\_secret\_arn](#input\_newrelic\_secret\_arn) | ARN for AWS Secrets Manager secret of New Relic Insights insert key. | `string` | `null` | no |
 | <a name="input_newrelic_secret_name"></a> [newrelic\_secret\_name](#input\_newrelic\_secret\_name) | Name for AWS Secrets Manager secret of New Relic Insights insert key. | `string` | `null` | no |
 | <a name="input_nlb_protocol"></a> [nlb\_protocol](#input\_nlb\_protocol) | Protocol for the network load balancer used in this service. Ignored for application load balancers. | `string` | `"TLS"` | no |
@@ -189,6 +192,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | Specifies whether to propagate the tags from the task definition or the service to the tasks | `string` | `"SERVICE"` | no |
 | <a name="input_public_service"></a> [public\_service](#input\_public\_service) | Service should be provisioned in public subnet. Ignored if subnets defined. | `bool` | `true` | no |
 | <a name="input_redis_sg_ids"></a> [redis\_sg\_ids](#input\_redis\_sg\_ids) | Redis Security group IDs | `set(string)` | `[]` | no |
+| <a name="input_requires_compatibilities"></a> [requires\_compatibilities](#input\_requires\_compatibilities) | (optional) capabilities that the task requires | `set(string)` | <pre>[<br>  "FARGATE"<br>]</pre> | no |
 | <a name="input_restricted_cidr_blocks"></a> [restricted\_cidr\_blocks](#input\_restricted\_cidr\_blocks) | CIDR blocks to receive restricted service access. If empty, no CIDRs will be allowed to connect. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_restricted_sg"></a> [restricted\_sg](#input\_restricted\_sg) | SG to receive restricted service access. If null, no sg will be configured to connect | `string` | `null` | no |
 | <a name="input_role_policy_json"></a> [role\_policy\_json](#input\_role\_policy\_json) | the policy to apply for this service. Defaults to a valid ECS role policy if null. | `string` | `null` | no |
@@ -207,18 +211,18 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_service_healthcheck_interval"></a> [service\_healthcheck\_interval](#input\_service\_healthcheck\_interval) | The time, in milliseconds, between health checks of the service | `number` | `6000` | no |
 | <a name="input_service_healthcheck_timeout"></a> [service\_healthcheck\_timeout](#input\_service\_healthcheck\_timeout) | The time, in milliseconds, before a timeout on the health check of the service | `number` | `3000` | no |
 | <a name="input_service_healthcheck_unhealthy_threshold"></a> [service\_healthcheck\_unhealthy\_threshold](#input\_service\_healthcheck\_unhealthy\_threshold) | The number of unsuccessful checks before a service is considered unhealthy | `number` | `2` | no |
-| <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | path to the ssm parameters you want pulled into your container during execution of the entrypoint. | `string` | `null` | no |
+| <a name="input_ssm_path"></a> [ssm\_path](#input\_ssm\_path) | (optional) path to the ssm parameters you want pulled into your container during execution of the entrypoint | `string` | `null` | no |
 | <a name="input_subnets"></a> [subnets](#input\_subnets) | Subnets for the service. If null, private and public subnets will be looked up based on environment tag and one will be selected based on public\_service. | `list(string)` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | Extra tags | `map(string)` | `{}` | no |
 | <a name="input_target_cpu_utilization"></a> [target\_cpu\_utilization](#input\_target\_cpu\_utilization) | Target CPU utilization for scaling | `number` | `50` | no |
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Target group name. Will default to product if not defined. | `string` | `null` | no |
 | <a name="input_target_memory_utilization"></a> [target\_memory\_utilization](#input\_target\_memory\_utilization) | Target memory utilization for scaling | `number` | `50` | no |
 | <a name="input_task_def_arn"></a> [task\_def\_arn](#input\_task\_def\_arn) | Task definition ARN. If null, task will be created with default values, except that image\_repo and image\_tag may be defined. | `string` | `null` | no |
-| <a name="input_task_family"></a> [task\_family](#input\_task\_family) | Name to use for the task family of the task definition associated with this service. By default, uses name. | `string` | `null` | no |
-| <a name="input_virtual_gateway"></a> [virtual\_gateway](#input\_virtual\_gateway) | the name of the virtual gateway associated with this task definition. Only populate if this is an envoy service. | `string` | `null` | no |
-| <a name="input_virtual_node"></a> [virtual\_node](#input\_virtual\_node) | The name of the virtual node associated with this service. | `string` | `null` | no |
+| <a name="input_task_family"></a> [task\_family](#input\_task\_family) | (optional) task family for task. This is effectively the name of the task, without qualification of revision | `string` | `null` | no |
+| <a name="input_use_xray_sidecar"></a> [use\_xray\_sidecar](#input\_use\_xray\_sidecar) | (optional) if set to null, will use the sidecar to trace the task if envoy is used, as that automatically implements tracing configs. | `bool` | `null` | no |
+| <a name="input_virtual_gateway"></a> [virtual\_gateway](#input\_virtual\_gateway) | (optional) the name of the virtual gateway associated with this task definition. If null, ignored | `string` | `null` | no |
+| <a name="input_virtual_node"></a> [virtual\_node](#input\_virtual\_node) | (optional) the name of the virtual node associated with this task definition. Ignored if virtual\_gateway set. If null, ignored | `string` | `null` | no |
 | <a name="input_virtual_node_protocol"></a> [virtual\_node\_protocol](#input\_virtual\_node\_protocol) | Protocol for the virtual node | `string` | `"http"` | no |
-| <a name="input_virtual_service"></a> [virtual\_service](#input\_virtual\_service) | The name of the virtual service associated with this ecs service. | `string` | `null` | no |
 | <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | VPC ID. If null, one will be looked up based on environment tag. | `string` | `null` | no |
 
 ## Outputs
