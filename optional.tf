@@ -16,12 +16,6 @@ variable "deployment_minimum_healthy_percent" {
   type        = number
 }
 
-variable "container_port" {
-  description = "Port the container will expose"
-  default     = 80
-  type        = number
-}
-
 variable "min_capacity" {
   description = "The minimum capacity of tasks for this service"
   default     = 1
@@ -113,18 +107,6 @@ variable "scale_up_memory_threshold" {
 variable "scale_down_memory_threshold" {
   description = "Threshold at which Memory utilization triggers a scale down event"
   default     = 20
-  type        = number
-}
-
-variable "cpu_reservation" {
-  description = "CPU reservation for task"
-  default     = 256
-  type        = number
-}
-
-variable "memory_reservation" {
-  description = "memory reservation for task"
-  default     = 512
   type        = number
 }
 
@@ -271,18 +253,6 @@ variable "task_def_arn" {
   type        = string
 }
 
-variable "image_repo" {
-  description = "Image repo. e.g. image_repo = nginx --> nginx:image_tag. Ignored if task_def_arn is defined."
-  default     = "nginx"
-  type        = string
-}
-
-variable "image_tag" {
-  description = "Tag of the image. e.g. image_tag = latest --> image_repo:latest. Ignored if task_def_arn is defined."
-  default     = "alpine"
-  type        = string
-}
-
 variable "subnets" {
   description = "Subnets for the service. If null, private and public subnets will be looked up based on environment tag and one will be selected based on public_service."
   default     = null
@@ -355,32 +325,8 @@ variable "nlb_protocol" {
   type        = string
 }
 
-variable "mesh_name" {
-  description = "the name for the App Mesh this service is task is associated with. Only populate if this is an envoy service."
-  default     = null
-  type        = string
-}
-
-variable "virtual_gateway" {
-  description = "the name of the virtual gateway associated with this task definition. Only populate if this is an envoy service."
-  default     = null
-  type        = string
-}
-
-variable "container_name" {
-  description = "name of the primary container for this service. Defaults to local.name if null."
-  default     = null
-  type        = string
-}
-
 variable "role_policy_json" {
   description = "the policy to apply for this service. Defaults to a valid ECS role policy if null."
-  default     = null
-  type        = string
-}
-
-variable "ssm_path" {
-  description = "path to the ssm parameters you want pulled into your container during execution of the entrypoint."
   default     = null
   type        = string
 }
@@ -403,28 +349,6 @@ variable "enable_circuit_breaker_rollback" {
   type        = bool
 }
 
-variable "task_family" {
-  description = "Name to use for the task family of the task definition associated with this service. By default, uses name."
-  default     = null
-  type        = string
-}
-
-variable "efs_mounts" {
-  description = "efs mount map. Components should include dns_name, container_mount_point, efs_mount_point"
-  default     = []
-  type = list(object({
-    file_system_id = string
-    efs_path       = string
-    container_path = string
-  }))
-}
-
-variable "env_vars" {
-  description = "environment variables to be passed to the container. By default, only passes SSM_PATH"
-  default     = null
-  type        = list(map(any))
-}
-
 variable "newrelic_secret_arn" {
   description = "ARN for AWS Secrets Manager secret of New Relic Insights insert key."
   default     = null
@@ -441,30 +365,6 @@ variable "create_lb" {
   description = "Create load balancer for service. If creating a virtual node, will ignore value."
   default     = true
   type        = bool
-}
-
-variable "command" {
-  description = "command to run in the container as an array. e.g. [\"sleep\", \"10\"]. If null, does not set a command in the task definition."
-  default     = null
-  type        = list(string)
-}
-
-variable "entrypoint" {
-  description = "entrypoint to run in the container as an array. e.g. [\"sleep\", \"10\"]. If null, does not set an entrypoint in the task definition."
-  default     = null
-  type        = list(string)
-}
-
-variable "virtual_node" {
-  description = "The name of the virtual node associated with this service."
-  type        = string
-  default     = null
-}
-
-variable "virtual_service" {
-  description = "The name of the virtual service associated with this ecs service."
-  type        = string
-  default     = null
 }
 
 variable "namespace_id" {

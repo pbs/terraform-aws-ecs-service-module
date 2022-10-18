@@ -4,12 +4,6 @@ resource "aws_appmesh_virtual_node" "virtual_node" {
   mesh_name = var.mesh_name
 
   spec {
-    backend {
-      virtual_service {
-        virtual_service_name = var.virtual_service
-      }
-    }
-
     listener {
       port_mapping {
         port     = var.container_port
