@@ -22,6 +22,6 @@ jobs:
 
       - name: "TODO"
         run: |
-          if [[ "$(basename $(git rev-parse --show-toplevel))" != 'terraform-aws-template' ]]; then
+          if [[ "$(basename $(git rev-parse --show-toplevel))" != *'terraform-aws-template'* ]]; then
             ./scripts/todo.sh
           fi

@@ -23,7 +23,7 @@ To switch the kind of load balancer used from an application load balancer to a 
 Integrate this module like so:
 
 ```hcl
-module "ecs-service" {
+module "service" {
   source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
