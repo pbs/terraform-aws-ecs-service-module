@@ -20,6 +20,8 @@ To make the service provisioned here private, set `public_service` to `false`. T
 
 To switch the kind of load balancer used from an application load balancer to a network load balancer, set `load_balancer_type` to `network`.
 
+To run an ECS service on ARM architecture, set `runtime_platform` accordingly. The `cpu_architecture` object property being set to `ARM64` is what adjusts the task definition such that the tasks run on Graviton hardware for Fargate tasks.
+
 Integrate this module like so:
 
 ```hcl
