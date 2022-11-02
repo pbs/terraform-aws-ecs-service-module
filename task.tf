@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=0.1.1"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=0.2.0"
 
   name = local.name
 
@@ -40,6 +40,8 @@ module "task" {
   network_mode             = var.network_mode
   requires_compatibilities = var.requires_compatibilities
   container_definitions    = var.container_definitions
+
+  runtime_platform = var.runtime_platform
 
   organization = var.organization
   environment  = var.environment

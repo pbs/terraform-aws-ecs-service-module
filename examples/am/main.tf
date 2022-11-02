@@ -152,9 +152,8 @@ module "service_v1" {
 
   name = "${var.product}-v1"
 
-  mesh_name       = module.mesh.id
-  virtual_node    = "ex-service-v1"
-  virtual_service = module.virtual_service.name
+  mesh_name    = module.mesh.id
+  virtual_node = "ex-service-v1"
 
   namespace    = var.product
   namespace_id = module.namespace.id
@@ -170,9 +169,8 @@ module "service_v2" {
 
   name = "${var.product}-v2"
 
-  mesh_name       = module.mesh.id
-  virtual_node    = "ex-service-v2"
-  virtual_service = module.virtual_service.name
+  mesh_name    = module.mesh.id
+  virtual_node = "ex-service-v2"
 
   namespace    = var.product
   namespace_id = module.namespace.id
