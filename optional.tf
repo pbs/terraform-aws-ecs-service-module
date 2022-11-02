@@ -413,3 +413,9 @@ variable "acm_arn" {
   default     = null
   type        = string
 }
+
+variable "idle_timeout" {
+  description = "Idle timeout for the load balancer. If null, will use whatever the default is for the load balancer type."
+  default     = null
+  type        = number
+}

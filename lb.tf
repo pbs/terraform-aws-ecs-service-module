@@ -3,6 +3,7 @@ resource "aws_lb" "lb" {
   name            = local.load_balancer_name
   subnets         = local.subnets
   security_groups = local.lb_security_groups
+  idle_timeout    = var.idle_timeout
 
   internal = local.internal
 
