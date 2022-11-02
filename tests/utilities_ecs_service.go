@@ -47,7 +47,20 @@ func testECSService(t *testing.T, variant string) {
 		LockTimeout:  "5m",
 	}
 
-	defer terraform.Destroy(t, terraformOptions)
+	defer func() {
+		// To ensure that the service is stopped before stopping the cluster.
+		terraformTargetServiceOptions := &terraform.Options{
+			TerraformDir: terraformDir,
+			LockTimeout:  "5m",
+			Targets: []string{
+				"module.service.aws_ecs_service.service",
+				"module.service_v1.aws_ecs_service.service",
+				"module.service_v2.aws_ecs_service.service",
+			},
+		}
+		terraform.Destroy(t, terraformTargetServiceOptions)
+		terraform.Destroy(t, terraformOptions)
+	}()
 
 	expectedLogGroup := fmt.Sprintf("/ecs/%s", expectedName)
 
@@ -70,7 +83,7 @@ func testECSService(t *testing.T, variant string) {
 	case "sgs":
 		// We need to apply the SGs first because of the count on
 		// user_to_virtual_node_access_sg
-		terraformTargetEFSOptions := &terraform.Options{
+		terraformTargetSGOptions := &terraform.Options{
 			TerraformDir: terraformDir,
 			LockTimeout:  "5m",
 			Targets: []string{
@@ -80,7 +93,7 @@ func testECSService(t *testing.T, variant string) {
 				"aws_security_group.ingress_sg",
 			},
 		}
-		terraform.Apply(t, terraformTargetEFSOptions)
+		terraform.Apply(t, terraformTargetSGOptions)
 	case "am":
 		// We need to apply the virtual gateway first
 		// because of the for_each used on virtual_gateway_ids
