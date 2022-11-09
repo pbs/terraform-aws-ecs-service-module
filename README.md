@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
+github.com/pbs/terraform-aws-ecs-service-module?ref=2.2.0
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=2.2.0"
 
   # Required
   primary_hosted_zone = "example.com"
@@ -47,7 +47,7 @@ module "service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`x.y.z`
+`2.2.0`
 
 Note, however that subtrees can be altered as desired within repositories.
 
