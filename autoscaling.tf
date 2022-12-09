@@ -8,7 +8,7 @@ resource "aws_appautoscaling_target" "autoscaling_target" {
 
 resource "aws_appautoscaling_policy" "cpu_autoscaling_policy" {
   count              = var.scaling_approach == "target_tracking" ? 1 : 0
-  name               = "${local.name}-scaling-policy"
+  name               = "${local.name}-cpu-scaling-policy"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.autoscaling_target.resource_id
   scalable_dimension = aws_appautoscaling_target.autoscaling_target.scalable_dimension
@@ -25,7 +25,7 @@ resource "aws_appautoscaling_policy" "cpu_autoscaling_policy" {
 
 resource "aws_appautoscaling_policy" "memory_autoscaling_policy" {
   count              = var.scaling_approach == "target_tracking" ? 1 : 0
-  name               = "${local.name}-scaling-policy"
+  name               = "${local.name}-memory-scaling-policy"
   policy_type        = "TargetTrackingScaling"
   resource_id        = aws_appautoscaling_target.autoscaling_target.resource_id
   scalable_dimension = aws_appautoscaling_target.autoscaling_target.scalable_dimension
