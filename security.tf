@@ -117,45 +117,6 @@ resource "aws_security_group_rule" "lb_to_service" {
   source_security_group_id = aws_security_group.lb_sg[0].id
 }
 
-resource "aws_security_group_rule" "service_to_mysql" {
-  for_each          = var.mysql_sg_ids
-  security_group_id = each.value
-  description       = "Allow MySQL traffic from the ECS service to the DB"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.mysql_port
-  to_port   = local.mysql_port
-
-  source_security_group_id = aws_security_group.service_sg.id
-}
-
-resource "aws_security_group_rule" "service_to_redis" {
-  for_each          = var.redis_sg_ids
-  security_group_id = each.value
-  description       = "Allow Redis traffic from the ECS service to the cluster"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.redis_port
-  to_port   = local.redis_port
-
-  source_security_group_id = aws_security_group.service_sg.id
-}
-
-resource "aws_security_group_rule" "service_to_memcached" {
-  for_each          = var.memcached_sg_ids
-  security_group_id = each.value
-  description       = "Allow Memcached traffic from the ECS service to the cluster"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.memcached_port
-  to_port   = local.memcached_port
-
-  source_security_group_id = aws_security_group.service_sg.id
-}
-
 resource "aws_security_group_rule" "nlb_service_access_cidr" {
   count             = local.create_nlb_cidr_access_rule ? 1 : 0
   security_group_id = aws_security_group.service_sg.id
@@ -180,32 +141,6 @@ resource "aws_security_group_rule" "nlb_service_access_sg" {
   to_port   = var.container_port
 
   source_security_group_id = var.restricted_sg
-}
-
-resource "aws_security_group_rule" "service_to_efs" {
-  for_each          = var.efs_sg_ids
-  security_group_id = each.value
-  description       = "Allow EFS traffic from the ECS service to the EFS"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.efs_port
-  to_port   = local.efs_port
-
-  source_security_group_id = aws_security_group.service_sg.id
-}
-
-resource "aws_security_group_rule" "efs_service_access_sg" {
-  for_each          = var.efs_sg_ids
-  security_group_id = aws_security_group.service_sg.id
-  description       = "Allow EFS port traffic to the ECS service for specific SGs"
-  type              = "ingress"
-  protocol          = "tcp"
-
-  from_port = local.efs_port
-  to_port   = local.efs_port
-
-  source_security_group_id = each.value
 }
 
 resource "aws_security_group_rule" "user_to_virtual_node_access_cidr" {

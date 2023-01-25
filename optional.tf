@@ -289,30 +289,6 @@ variable "private_hosted_zone" {
   type        = string
 }
 
-variable "mysql_sg_ids" {
-  description = "MySQL DB Security group IDs"
-  default     = []
-  type        = set(string)
-}
-
-variable "redis_sg_ids" {
-  description = "Redis Security group IDs"
-  default     = []
-  type        = set(string)
-}
-
-variable "memcached_sg_ids" {
-  description = "Memcached Security group IDs"
-  default     = []
-  type        = set(string)
-}
-
-variable "efs_sg_ids" {
-  description = "EFS Security group IDs"
-  default     = []
-  type        = set(string)
-}
-
 variable "load_balancer_type" {
   description = "Type of load balancer to use. alb, nlb or gateway."
   default     = "application"

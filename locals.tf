@@ -2,10 +2,6 @@ locals {
   name                                 = var.name != null ? var.name : var.product
   http_port                            = 80
   https_port                           = 443
-  mysql_port                           = 3306
-  redis_port                           = 6379
-  memcached_port                       = 11211
-  efs_port                             = 2049
   route_priority                       = 10
   container_name                       = var.container_name != null ? var.container_name : "app"
   task_family                          = var.task_family != null ? var.task_family : local.name
