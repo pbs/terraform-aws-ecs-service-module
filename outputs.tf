@@ -60,15 +60,15 @@ output "virtual_node_name" {
 
 output "https_listener_arn" {
   description = "ARN of the HTTPS listener. Useful when adding extra ACM certificates to the listener."
-  value       = local.create_https_listeners ? aws_lb_listener.https[0].arn : null
+  value       = local.create_https_listeners ? one(aws_lb_listener.https[*].arn) : null
 }
 
 output "lb_sg" {
   description = "Load balancer security group"
-  value       = local.create_lb_sg ? aws_security_group.lb_sg[0].id : null
+  value       = local.create_lb_sg ? one(aws_security_group.lb_sg[*].id) : null
 }
 
 output "lb_arn" {
   description = "Load balancer ARN"
-  value       = local.create_lb ? aws_lb.lb[0].arn : null
+  value       = local.create_lb ? one(aws_lb.lb[*].arn) : null
 }

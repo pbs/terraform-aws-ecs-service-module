@@ -47,20 +47,7 @@ func testECSService(t *testing.T, variant string) {
 		LockTimeout:  "5m",
 	}
 
-	defer func() {
-		// To ensure that the service is stopped before stopping the cluster.
-		terraformTargetServiceOptions := &terraform.Options{
-			TerraformDir: terraformDir,
-			LockTimeout:  "5m",
-			Targets: []string{
-				"module.service.aws_ecs_service.service",
-				"module.service_v1.aws_ecs_service.service",
-				"module.service_v2.aws_ecs_service.service",
-			},
-		}
-		terraform.Destroy(t, terraformTargetServiceOptions)
-		terraform.Destroy(t, terraformOptions)
-	}()
+	defer terraform.Destroy(t, terraformOptions)
 
 	expectedLogGroup := fmt.Sprintf("/ecs/%s", expectedName)
 
