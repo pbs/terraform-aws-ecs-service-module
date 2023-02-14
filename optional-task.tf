@@ -133,3 +133,9 @@ variable "runtime_platform" {
     cpu_architecture        = optional(string, "X86_64")
   })
 }
+
+variable "awslogs_driver_mode" {
+  description = "(optional) awslogs driver mode. Set this to `blocking` if you would rather have an outage than lose logs."
+  default     = "non-blocking"
+  type        = string
+}
