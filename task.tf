@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=0.2.0"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=1.0.0"
 
   name = local.name
 
@@ -42,6 +42,8 @@ module "task" {
   container_definitions    = var.container_definitions
 
   runtime_platform = var.runtime_platform
+
+  awslogs_driver_mode = var.awslogs_driver_mode
 
   organization = var.organization
   environment  = var.environment
