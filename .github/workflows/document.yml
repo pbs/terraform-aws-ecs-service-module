@@ -21,6 +21,12 @@ jobs:
       - name: "Checkout"
         uses: actions/checkout@main
 
+      # This makes it easier to push changes back to the PR
+      - name: "Checkout w/ gh"
+        run: gh pr checkout ${{ github.event.pull_request.number}}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Setup asdf
         uses: asdf-vm/actions/setup@v2
 
@@ -40,15 +46,21 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Confirm"
+      - name: "Commit if Necessary"
         run: |
           if [[ "$(basename "$(git rev-parse --show-toplevel)")" != *'terraform-aws-template'* ]]; then
             echo "Setting core.fileMode to false to avoid false positives in documentation check."
             git config core.fileMode false
             if [[ -n $(git status --porcelain) ]]; then
-              echo "Documentation is not up to date. Run ./scripts/document.sh"
-              git status -v
-              git diff
-              exit 1
+              echo "Documentation is not up to date. Comitting updates"
+
+              git add README.md
+              git config user.name "${GITHUB_USERNAME}"
+              git config user.email "${GITHUB_USERNAME}@users.noreply.github.com"
+              git commit -m "Running document script"
+              git push
             fi
           fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: ${{ github.actor }}
