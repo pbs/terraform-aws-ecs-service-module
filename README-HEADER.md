@@ -43,6 +43,32 @@ module "service" {
 }
 ```
 
+### ECS Cluster
+
+This module will create an ECS cluster if one is not provided. If you would like to use an existing ECS cluster, provide the `cluster` variable.
+
+```hcl
+module "service" {
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
+
+  # Required
+  primary_hosted_zone = "example.com"
+
+  # Tagging Parameters
+  organization = var.organization
+  environment  = var.environment
+  product      = var.product
+  repo         = var.repo
+
+  # Optional
+  cluster = "main"
+}
+```
+
+> :warning: It is not advised to use the default of the automatically created cluster from this module in production, as collocation of services on the same cluster can lead to improved resource utilization, cost savings, reduced complexity and nicer CloudWatch dashboards.
+> How much of this applies to you is dependent on your cluster configuration and use-case, however.
+> Feel free to use the cluster provisioned by this module when starting out to reduce the friction of getting started, but consider moving to a dedicated cluster as soon as convenient.
+
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
