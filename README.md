@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=4.0.7
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=4.0.7"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   primary_hosted_zone = "example.com"
@@ -43,11 +43,37 @@ module "service" {
 }
 ```
 
+### ECS Cluster
+
+This module will create an ECS cluster if one is not provided. If you would like to use an existing ECS cluster, provide the `cluster` variable.
+
+```hcl
+module "service" {
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
+
+  # Required
+  primary_hosted_zone = "example.com"
+
+  # Tagging Parameters
+  organization = var.organization
+  environment  = var.environment
+  product      = var.product
+  repo         = var.repo
+
+  # Optional
+  cluster = "main"
+}
+```
+
+> :warning: It is not advised to use the default of the automatically created cluster from this module in production, as collocation of services on the same cluster can lead to improved resource utilization, cost savings, reduced complexity and nicer CloudWatch dashboards.
+> How much of this applies to you is dependent on your cluster configuration and use-case, however.
+> Feel free to use the cluster provisioned by this module when starting out to reduce the friction of getting started, but consider moving to a dedicated cluster as soon as convenient.
+
 ## Adding This Version of the Module
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`4.0.7`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -139,6 +165,18 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Assign public IP to the service | `bool` | `true` | no |
 | <a name="input_awslogs_driver_mode"></a> [awslogs\_driver\_mode](#input\_awslogs\_driver\_mode) | (optional) awslogs driver mode. Set this to `blocking` if you would rather have an outage than lose logs. | `string` | `"non-blocking"` | no |
 | <a name="input_cluster"></a> [cluster](#input\_cluster) | Name of the ECS Cluster this service runs in. If null, one will be created based on the product | `string` | `null` | no |
+| <a name="input_cluster_ec2_backed"></a> [cluster\_ec2\_backed](#input\_cluster\_ec2\_backed) | Whether or not to provision an autoscaled EC2 fleet to back the cluster | `bool` | `false` | no |
+| <a name="input_cluster_instance_type"></a> [cluster\_instance\_type](#input\_cluster\_instance\_type) | Instance type to use for EC2 backed cluster | `string` | `"m7a.xlarge"` | no |
+| <a name="input_cluster_launch_template_version"></a> [cluster\_launch\_template\_version](#input\_cluster\_launch\_template\_version) | Version of the launch template to use | `string` | `"$Latest"` | no |
+| <a name="input_cluster_max_instance_lifetime"></a> [cluster\_max\_instance\_lifetime](#input\_cluster\_max\_instance\_lifetime) | Maximum lifetime for an instance in the autoscaling group | `number` | `604800` | no |
+| <a name="input_cluster_max_size"></a> [cluster\_max\_size](#input\_cluster\_max\_size) | Maximum size for the autoscaling group to scale out to for the cluster | `number` | `25` | no |
+| <a name="input_cluster_maximum_scaling_step_size"></a> [cluster\_maximum\_scaling\_step\_size](#input\_cluster\_maximum\_scaling\_step\_size) | Capacity provider maximum scaling step size | `number` | `10` | no |
+| <a name="input_cluster_min_size"></a> [cluster\_min\_size](#input\_cluster\_min\_size) | Minimum size for the autoscaling group to scale out to for the cluster | `number` | `3` | no |
+| <a name="input_cluster_minimum_scaling_step_size"></a> [cluster\_minimum\_scaling\_step\_size](#input\_cluster\_minimum\_scaling\_step\_size) | Capacity provider maximum scaling step size | `number` | `1` | no |
+| <a name="input_cluster_name"></a> [cluster\_name](#input\_cluster\_name) | Name of the cluster | `string` | `null` | no |
+| <a name="input_cluster_protect_from_scale_in"></a> [cluster\_protect\_from\_scale\_in](#input\_cluster\_protect\_from\_scale\_in) | Allow ECS to protect instances running tasks from being terminated while tasks are running on them. Must be false when destroying cluster | `bool` | `true` | no |
+| <a name="input_cluster_role_policy_json"></a> [cluster\_role\_policy\_json](#input\_cluster\_role\_policy\_json) | (optional) IAM policy to attach to role used for the instance profile of instances in this cluster | `string` | `null` | no |
+| <a name="input_cluster_target_capacity"></a> [cluster\_target\_capacity](#input\_cluster\_target\_capacity) | Capacity provider target capacity | `number` | `75` | no |
 | <a name="input_cnames"></a> [cnames](#input\_cnames) | CNAME(s) that are going to be created for this service in the primary\_hosted\_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [product] --> [product.example.com] | `list(string)` | `null` | no |
 | <a name="input_command"></a> [command](#input\_command) | (optional) command to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set a command in the task definition. | `list(string)` | `null` | no |
 | <a name="input_container_definitions"></a> [container\_definitions](#input\_container\_definitions) | (optional) JSON container definitions for task | `string` | `null` | no |
