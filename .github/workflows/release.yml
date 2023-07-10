@@ -24,6 +24,26 @@ jobs:
         if: steps.asdf-cache.outputs.cache-hit != 'true'
         uses: asdf-vm/actions/install@v2
 
+      - name: "Run document script if necessary"
+        run: |
+          if [[ "$(basename "$(git rev-parse --show-toplevel)")" != *'terraform-aws-template'* ]]; then
+            ./scripts/document.sh
+
+            echo "Setting core.fileMode to false to avoid false positives in documentation check."
+            git config core.fileMode false
+            if [[ -n $(git status --porcelain) ]]; then
+              echo "Documentation is not up to date. Comitting updates"
+
+              git add README.md
+              git config user.name "${GITHUB_USERNAME}"
+              git config user.email "${GITHUB_USERNAME}@users.noreply.github.com"
+              git commit -m "Running document script"
+            fi
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USERNAME: ${{ github.actor }}
+
       - name: Release
         run: ./scripts/release.sh
         env:
