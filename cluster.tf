@@ -1,6 +1,6 @@
 module "cluster" {
   count  = var.cluster == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-cluster-module?ref=0.0.10"
+  source = "github.com/pbs/terraform-aws-ecs-cluster-module?ref=0.0.11"
 
   # Shared variables
   vpc_id  = local.vpc_id
