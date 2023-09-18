@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=1.0.14"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=1.0.15"
 
   name = local.name
 
