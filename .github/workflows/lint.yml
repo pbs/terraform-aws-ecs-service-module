@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@main
 
       - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
+        uses: asdf-vm/actions/setup@v3
 
       - name: Cache asdf
         id: asdf-cache
@@ -30,7 +30,7 @@ jobs:
 
       - name: Setup asdf
         if: steps.asdf-cache.outputs.cache-hit != 'true'
-        uses: asdf-vm/actions/install@v2
+        uses: asdf-vm/actions/install@v3
 
       - name: "Lint"
         run: ./scripts/lint.sh
