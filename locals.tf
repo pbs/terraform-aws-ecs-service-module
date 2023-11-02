@@ -6,6 +6,8 @@ locals {
   container_name                       = var.container_name != null ? var.container_name : "app"
   task_family                          = var.task_family != null ? var.task_family : local.name
   load_balancer_name                   = var.load_balancer_name != null ? var.load_balancer_name : local.name
+  load_balancer_sg_name                = var.load_balancer_sg_name != null ? var.load_balancer_sg_name : "${local.load_balancer_name}-sg-"
+  service_sg_name                      = var.service_sg_name != null ? var.service_sg_name : "${local.name}-service-sg-"
   target_group_name                    = var.target_group_name != null ? var.target_group_name : local.name
   cluster                              = var.cluster != null ? var.cluster : one(module.cluster[*].name)
   task_def_arn                         = var.task_def_arn != null ? var.task_def_arn : one(module.task[*].arn)

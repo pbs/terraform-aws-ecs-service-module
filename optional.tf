@@ -395,3 +395,15 @@ variable "idle_timeout" {
   default     = null
   type        = number
 }
+
+variable "load_balancer_sg_name" {
+  description = "Prefix for the name of the load balancer security group. If null, will use `$${local.load_balancer_name}-sg-`."
+  default     = null
+  type        = string
+}
+
+variable "service_sg_name" {
+  description = "Prefix for the name of the service security group. If null, will use `$${local.name}-service-sg-`."
+  default     = null
+  type        = string
+}
