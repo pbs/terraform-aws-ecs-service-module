@@ -3,7 +3,7 @@ resource "aws_security_group" "lb_sg" {
   description = "Controls access to the ${local.name} load balancer"
 
   vpc_id      = local.vpc_id
-  name_prefix = "${local.load_balancer_name}-sg-"
+  name_prefix = "${local.load_balancer_name}-lb-sg-"
 
   tags = merge(
     local.tags,
