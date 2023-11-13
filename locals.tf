@@ -14,6 +14,7 @@ locals {
   vpc_id                               = var.vpc_id != null ? var.vpc_id : one(data.aws_vpc.vpc[*].id)
   public_service                       = !local.create_virtual_node && var.public_service
   subnets                              = var.subnets != null ? var.subnets : var.public_service ? data.aws_subnets.public_subnets[0].ids : data.aws_subnets.private_subnets[0].ids
+  subnets_cluster                            = var.subnets != null ? var.subnets : var.public_service ? data.aws_subnets.public_subnets[0].ids : data.aws_subnets.private_subnets[0].ids
   lookup_hosted_zone                   = !local.create_virtual_node && local.app_dns_record_count > 0
   lookup_primary_acm_wildcard_cert     = local.lookup_hosted_zone && local.public_service && var.acm_arn == null
   acm_arn                              = var.acm_arn != null ? var.acm_arn : local.lookup_primary_acm_wildcard_cert ? one(data.aws_acm_certificate.primary_acm_wildcard_cert[*].arn) : null
