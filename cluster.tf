@@ -4,8 +4,7 @@ module "cluster" {
 
   # Shared variables
   vpc_id  = local.vpc_id
-  #subnets = local.subnets
-  subnets_cluster = local.subnets_cluster
+  subnets = local.subnets
 
   # Cluster variables
 

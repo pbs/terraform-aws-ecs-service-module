@@ -259,7 +259,7 @@ variable "subnets" {
   type        = list(string)
 }
 
-variable "subnets_cluster" {
+variable "subnets_service" {
   description = "Subnets for the service. If null, private and public subnets will be looked up based on environment tag and one will be selected based on public_service."
   default     = null
   type        = list(string)
