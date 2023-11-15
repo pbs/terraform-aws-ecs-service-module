@@ -14,7 +14,7 @@ module "virtual_gateway" {
 
   mesh_name = module.mesh.id
 
-  primary_hosted_zone = var.primary_hosted_zone
+  hosted_zone = var.hosted_zone
 
   organization = var.organization
   environment  = var.environment

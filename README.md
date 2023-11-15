@@ -29,7 +29,7 @@ module "service" {
   source = "github.com/pbs/terraform-aws-ecs-service-module?ref=4.2.2"
 
   # Required
-  primary_hosted_zone = "example.com"
+  hosted_zone = "example.com"
 
   # Tagging Parameters
   organization = var.organization
@@ -52,7 +52,7 @@ module "service" {
   source = "github.com/pbs/terraform-aws-ecs-service-module?ref=4.2.2"
 
   # Required
-  primary_hosted_zone = "example.com"
+  hosted_zone = "example.com"
 
   # Tagging Parameters
   organization = var.organization
@@ -160,7 +160,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | ARN of the ACM certificate to use for the service. If null, one will be guessed based on the primary hosted zone of the service. | `string` | `null` | no |
 | <a name="input_alb_ssl_policy"></a> [alb\_ssl\_policy](#input\_alb\_ssl\_policy) | SSL policy to use for an Application Load Balancer application. | `string` | `"ELBSecurityPolicy-2016-08"` | no |
-| <a name="input_aliases"></a> [aliases](#input\_aliases) | CNAME(s) that are allowed to be used for this service. Default is `product`.`primary_hosted_zone`. e.g. [product.example.com] --> [product.example.com] | `list(string)` | `null` | no |
+| <a name="input_aliases"></a> [aliases](#input\_aliases) | CNAME(s) that are allowed to be used for this service. Default is `product`.`hosted_zone`. e.g. [product.example.com] --> [product.example.com] | `list(string)` | `null` | no |
 | <a name="input_alpn_policy"></a> [alpn\_policy](#input\_alpn\_policy) | Name of the Application-Layer Protocol Negotiation (ALPN) policy. Can be set if protocol is TLS. Valid values are HTTP1Only, HTTP2Only, HTTP2Optional, HTTP2Preferred, and None. | `string` | `"HTTP2Preferred"` | no |
 | <a name="input_assign_public_ip"></a> [assign\_public\_ip](#input\_assign\_public\_ip) | Assign public IP to the service | `bool` | `true` | no |
 | <a name="input_awslogs_driver_mode"></a> [awslogs\_driver\_mode](#input\_awslogs\_driver\_mode) | (optional) awslogs driver mode. Set this to `blocking` if you would rather have an outage than lose logs. | `string` | `"non-blocking"` | no |
@@ -223,7 +223,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_nlb_protocol"></a> [nlb\_protocol](#input\_nlb\_protocol) | Protocol for the network load balancer used in this service. Ignored for application load balancers. | `string` | `"TLS"` | no |
 | <a name="input_nlb_ssl_policy"></a> [nlb\_ssl\_policy](#input\_nlb\_ssl\_policy) | SSL policy to use for a Network Load Balancer application. | `string` | `"ELBSecurityPolicy-TLS13-1-2-2021-06"` | no |
 | <a name="input_platform_version"></a> [platform\_version](#input\_platform\_version) | The platform version on which to run your service | `string` | `"LATEST"` | no |
-| <a name="input_primary_hosted_zone"></a> [primary\_hosted\_zone](#input\_primary\_hosted\_zone) | Name of the primary hosted zone for DNS. e.g. primary\_hosted\_zone = example.org --> service.example.org. If null, it is assumed that a private hosted zone will be used. | `string` | `null` | no |
+| <a name="input_hosted_zone"></a> [primary\_hosted\_zone](#input\_primary\_hosted\_zone) | Name of the primary hosted zone for DNS. e.g. primary\_hosted\_zone = example.org --> service.example.org. If null, it is assumed that a private hosted zone will be used. | `string` | `null` | no |
 | <a name="input_private_hosted_zone"></a> [private\_hosted\_zone](#input\_private\_hosted\_zone) | Name of the private hosted zone for DNS. e.g. private\_hosted\_zone = example.org --> service.example.private. If null, it is assumed that a public hosted zone will be used. | `string` | `null` | no |
 | <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | Specifies whether to propagate the tags from the task definition or the service to the tasks | `string` | `"SERVICE"` | no |
 | <a name="input_public_service"></a> [public\_service](#input\_public\_service) | Service should be provisioned in public subnet. Ignored if subnets defined. | `bool` | `true` | no |

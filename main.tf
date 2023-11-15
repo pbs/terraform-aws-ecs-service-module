@@ -28,7 +28,7 @@ resource "aws_ecs_service" "service" {
   }
 
   network_configuration {
-    subnets          = local.subnets
+    subnets          = local.public_service == true ? local.public_subnets : local.private_subnets
     security_groups  = [aws_security_group.service_sg.id]
     assign_public_ip = var.assign_public_ip
   }

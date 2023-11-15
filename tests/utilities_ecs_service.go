@@ -22,19 +22,19 @@ func testECSService(t *testing.T, variant string) {
 
 	switch variant {
 	case "private":
-		privateHostedZone = os.Getenv("TF_VAR_private_hosted_zone")
+		privateHostedZone = os.Getenv("TF_VAR_hosted_zone")
 
 		if privateHostedZone == "" {
-			t.Fatal("TF_VAR_private_hosted_zone must be set to run tests. e.g. 'export TF_VAR_private_hosted_zone=example.private'")
+			t.Fatal("TF_VAR_hosted_zone must be set to run tests. e.g. 'export TF_VAR_hosted_zone=example.private'")
 		}
 
 		expectedDomainName = fmt.Sprintf("%s.%s", expectedName, privateHostedZone)
 	case "no-lb":
 	default:
-		primaryHostedZone = os.Getenv("TF_VAR_primary_hosted_zone")
+		primaryHostedZone = os.Getenv("TF_VAR_hosted_zone")
 
 		if primaryHostedZone == "" {
-			t.Fatal("TF_VAR_primary_hosted_zone must be set to run tests. e.g. 'export TF_VAR_primary_hosted_zone=example.org'")
+			t.Fatal("TF_VAR_hosted_zone must be set to run tests. e.g. 'export TF_VAR_hosted_zone=example.org'")
 		}
 
 		expectedDomainName = fmt.Sprintf("%s.%s", expectedName, primaryHostedZone)

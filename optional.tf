@@ -236,13 +236,13 @@ variable "load_balancer_name" {
 }
 
 variable "aliases" {
-  description = "CNAME(s) that are allowed to be used for this service. Default is `product`.`primary_hosted_zone`. e.g. [product.example.com] --> [product.example.com]"
+  description = "CNAME(s) that are allowed to be used for this service. Default is `product`.`hosted_zone`. e.g. [product.example.com] --> [product.example.com]"
   default     = null
   type        = list(string)
 }
 
 variable "cnames" {
-  description = "CNAME(s) that are going to be created for this service in the primary_hosted_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [product] --> [product.example.com]"
+  description = "CNAME(s) that are going to be created for this service in the hosted_zone. This can be set to [] to avoid creating a CNAME for the app. This can be useful for CDNs. Default is `product`. e.g. [product] --> [product.example.com]"
   default     = null
   type        = list(string)
 }
@@ -259,9 +259,21 @@ variable "subnets" {
   type        = list(string)
 }
 
+variable "private_subnets" {
+  description = "Private subnets for the service. If null, private subnets will be looked up based on environment tag and will be selected based on public_service."
+  default     = null
+  type        = list(string)
+}
+
+variable "public_subnets" {
+  description = "Public subnets for the service. If null, public subnets will be looked up based on environment tag and will be selected based on public_service."
+  default     = null
+  type        = list(string)
+}
+
 variable "public_service" {
   description = "Service should be provisioned in public subnet. Ignored if subnets defined."
-  default     = true
+  default     = false
   type        = bool
 }
 
@@ -277,16 +289,16 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "primary_hosted_zone" {
-  description = "Name of the primary hosted zone for DNS. e.g. primary_hosted_zone = example.org --> service.example.org. If null, it is assumed that a private hosted zone will be used."
+variable "hosted_zone" {
+  description = "Name of the hosted zone for DNS. e.g. hosted_zone = example.org --> service.example.org. Based on the is_private, this is the primary or the private hosted zone."
   default     = null
   type        = string
 }
 
-variable "private_hosted_zone" {
-  description = "Name of the private hosted zone for DNS. e.g. private_hosted_zone = example.org --> service.example.private. If null, it is assumed that a public hosted zone will be used."
-  default     = null
-  type        = string
+variable "is_private" {
+  description = "Is the route53 zone private or not."
+  default     = false
+  type        = bool
 }
 
 variable "load_balancer_type" {
@@ -405,5 +417,11 @@ variable "load_balancer_sg_name" {
 variable "service_sg_name" {
   description = "Prefix for the name of the service security group. If null, will use `$${local.name}-service-sg-`."
   default     = null
+  type        = string
+}
+
+variable "enable_cross_zone_load_balancing" {
+  description = "Enable cross-zone load balancing for NLBs. ALB have this enabled by default and cannot be disabled."
+  default     = true
   type        = string
 }
