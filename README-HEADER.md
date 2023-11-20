@@ -29,7 +29,7 @@ module "service" {
   source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
-  primary_hosted_zone = "example.com"
+  hosted_zone = "example.com"
 
   # Tagging Parameters
   organization = var.organization
@@ -52,7 +52,7 @@ module "service" {
   source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
-  primary_hosted_zone = "example.com"
+  hosted_zone = "example.com"
 
   # Tagging Parameters
   organization = var.organization

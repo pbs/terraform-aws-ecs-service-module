@@ -1,9 +1,11 @@
 resource "aws_lb" "lb" {
-  count           = local.create_lb ? 1 : 0
-  name            = local.load_balancer_name
-  subnets         = local.subnets
-  security_groups = local.lb_security_groups
-  idle_timeout    = var.idle_timeout
+  count                            = local.create_lb ? 1 : 0
+  name                             = local.load_balancer_name
+  subnets                          = local.subnets
+  security_groups                  = local.lb_security_groups
+  idle_timeout                     = var.idle_timeout
+  enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
+
 
   internal = local.internal
 

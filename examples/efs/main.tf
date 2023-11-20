@@ -10,7 +10,7 @@ module "efs" {
 module "service" {
   source = "../.."
 
-  primary_hosted_zone = var.primary_hosted_zone
+  hosted_zone = var.hosted_zone
 
   efs_mounts = [
     {

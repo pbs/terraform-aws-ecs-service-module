@@ -1,7 +1,7 @@
 module "service" {
   source = "../.."
 
-  primary_hosted_zone = var.primary_hosted_zone
+  hosted_zone = var.hosted_zone
 
   image_repo = "nginx"
   image_tag  = "latest"

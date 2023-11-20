@@ -90,7 +90,7 @@ resource "aws_security_group" "ingress_sg" {
 module "service" {
   source = "../.."
 
-  primary_hosted_zone = var.primary_hosted_zone
+  hosted_zone = var.hosted_zone
 
   restricted_sg = aws_security_group.ingress_sg.id
 

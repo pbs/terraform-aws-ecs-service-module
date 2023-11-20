@@ -13,21 +13,22 @@ locals {
   task_def_arn                         = var.task_def_arn != null ? var.task_def_arn : one(module.task[*].arn)
   vpc_id                               = var.vpc_id != null ? var.vpc_id : one(data.aws_vpc.vpc[*].id)
   public_service                       = !local.create_virtual_node && var.public_service
-  subnets                              = var.subnets != null ? var.subnets : var.public_service ? data.aws_subnets.public_subnets[0].ids : data.aws_subnets.private_subnets[0].ids
+  subnets                              = var.subnets != null ? var.subnets : local.internal == true ? local.private_subnets : local.public_subnets
+  private_subnets                      = var.private_subnets != null ? var.private_subnets : data.aws_subnets.private_subnets[0].ids
+  public_subnets                       = var.public_subnets != null ? var.public_subnets : data.aws_subnets.public_subnets[0].ids
   lookup_hosted_zone                   = !local.create_virtual_node && local.app_dns_record_count > 0
   lookup_primary_acm_wildcard_cert     = local.lookup_hosted_zone && local.public_service && var.acm_arn == null
   acm_arn                              = var.acm_arn != null ? var.acm_arn : local.lookup_primary_acm_wildcard_cert ? one(data.aws_acm_certificate.primary_acm_wildcard_cert[*].arn) : null
-  hosted_zone                          = var.public_service ? var.primary_hosted_zone : var.private_hosted_zone
-  null_safe_hosted_zone                = local.hosted_zone == null ? "" : local.hosted_zone
+  null_safe_hosted_zone                = var.hosted_zone == null ? "" : var.hosted_zone
   hosted_zone_id                       = local.lookup_hosted_zone ? one(data.aws_route53_zone.hosted_zone[*].zone_id) : null
-  internal                             = var.internal != null ? var.internal : !var.public_service
+  internal                             = var.internal != null ? var.internal : var.is_hosted_zone_private
   cnames                               = local.create_virtual_node ? [] : var.cnames != null ? var.cnames : [local.name]
   aliases                              = local.create_virtual_node ? [] : var.aliases != null ? var.aliases : ["${local.name}.${local.null_safe_hosted_zone}"]
   app_dns_record_count                 = local.create_lb ? length(local.cnames) : 0
   domain_name                          = !local.create_lb ? null : local.app_dns_record_count == 0 ? one(aws_lb.lb[*].dns_name) : one(aws_route53_record.app[*].fqdn)
   create_lb_sg                         = local.create_lb && var.load_balancer_type == "application"
   create_http_listeners                = local.create_lb && var.load_balancer_type == "application"
-  create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && var.public_service
+  create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && !var.is_hosted_zone_private
   only_create_http_listener            = local.create_http_listeners && !local.create_https_listeners
   create_nlb_listeners                 = local.create_lb && !local.create_http_listeners
   http_application_rule_count          = local.only_create_http_listener ? length(local.aliases) : 0
