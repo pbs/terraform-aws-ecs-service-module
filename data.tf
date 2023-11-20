@@ -1,7 +1,7 @@
 data "aws_route53_zone" "hosted_zone" {
   count        = local.lookup_hosted_zone ? 1 : 0
   name         = "${var.hosted_zone}."
-  private_zone = var.is_private
+  private_zone = var.is_hosted_zone_private
 }
 
 data "aws_vpc" "vpc" {

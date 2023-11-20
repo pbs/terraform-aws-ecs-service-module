@@ -21,14 +21,14 @@ locals {
   acm_arn                              = var.acm_arn != null ? var.acm_arn : local.lookup_primary_acm_wildcard_cert ? one(data.aws_acm_certificate.primary_acm_wildcard_cert[*].arn) : null
   null_safe_hosted_zone                = var.hosted_zone == null ? "" : var.hosted_zone
   hosted_zone_id                       = local.lookup_hosted_zone ? one(data.aws_route53_zone.hosted_zone[*].zone_id) : null
-  internal                             = var.internal != null ? var.internal : var.is_private
+  internal                             = var.internal != null ? var.internal : var.is_hosted_zone_private
   cnames                               = local.create_virtual_node ? [] : var.cnames != null ? var.cnames : [local.name]
   aliases                              = local.create_virtual_node ? [] : var.aliases != null ? var.aliases : ["${local.name}.${local.null_safe_hosted_zone}"]
   app_dns_record_count                 = local.create_lb ? length(local.cnames) : 0
   domain_name                          = !local.create_lb ? null : local.app_dns_record_count == 0 ? one(aws_lb.lb[*].dns_name) : one(aws_route53_record.app[*].fqdn)
   create_lb_sg                         = local.create_lb && var.load_balancer_type == "application"
   create_http_listeners                = local.create_lb && var.load_balancer_type == "application"
-  create_https_listeners               = local.create_lb && var.load_balancer_type == "application"
+  create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && !var.is_hosted_zone_private
   only_create_http_listener            = local.create_http_listeners && !local.create_https_listeners
   create_nlb_listeners                 = local.create_lb && !local.create_http_listeners
   http_application_rule_count          = local.only_create_http_listener ? length(local.aliases) : 0

@@ -290,12 +290,12 @@ variable "vpc_id" {
 }
 
 variable "hosted_zone" {
-  description = "Name of the hosted zone for DNS. e.g. hosted_zone = example.org --> service.example.org. Based on the is_private, this is the primary or the private hosted zone."
+  description = "Name of the hosted zone for DNS. e.g. hosted_zone = example.org --> service.example.org. Based on the is_hosted_zone_private, this is the primary or the private hosted zone."
   default     = null
   type        = string
 }
 
-variable "is_private" {
+variable "is_hosted_zone_private" {
   description = "Is the route53 zone private or not."
   default     = false
   type        = bool
