@@ -302,7 +302,7 @@ variable "is_hosted_zone_private" {
 }
 
 variable "load_balancer_type" {
-  description = "Type of load balancer to use. alb, nlb or gateway."
+  description = "Type of load balancer to use. application, network or gateway."
   default     = "application"
   type        = string
 }
@@ -311,6 +311,24 @@ variable "nlb_protocol" {
   description = "Protocol for the network load balancer used in this service. Ignored for application load balancers."
   default     = "TLS"
   type        = string
+}
+
+variable "http_port" {
+  description = "HTTP port number."
+  default     = "80"
+  type        = number
+}
+
+variable "https_port" {
+  description = "HTTPS port number."
+  default     = "443"
+  type        = number
+}
+
+variable "tcp_port" {
+  description = "NLB TCP port number. Ignored for application load balancers."
+  default     = null
+  type        = number
 }
 
 variable "role_policy_json" {
@@ -424,4 +442,10 @@ variable "enable_cross_zone_load_balancing" {
   description = "Enable cross-zone load balancing for NLBs. ALB have this enabled by default and cannot be disabled."
   default     = true
   type        = string
+}
+
+variable "route_priority" {
+  description = "Starting route priority, incremented by each listener rule"
+  default     = 10
+  type        = number
 }

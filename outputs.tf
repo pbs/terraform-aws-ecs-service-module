@@ -72,3 +72,13 @@ output "lb_arn" {
   description = "Load balancer ARN"
   value       = local.create_lb ? one(aws_lb.lb[*].arn) : null
 }
+
+output "lb_dns_name" {
+  description = "Load balancer DNS Name"
+  value       = local.create_lb ? one(aws_lb.lb[*].dns_name) : null
+}
+
+output "lb_zone_id" {
+  description = "Load balancer Zone Id"
+  value       = local.create_lb ? one(aws_lb.lb[*].zone_id) : null
+}
