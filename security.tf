@@ -33,8 +33,8 @@ resource "aws_security_group_rule" "user_to_lb_http_cidrs" {
   type              = "ingress"
   protocol          = "tcp"
 
-  from_port = local.http_port
-  to_port   = local.http_port
+  from_port = var.http_port
+  to_port   = var.http_port
 
   cidr_blocks = var.restricted_cidr_blocks
 }
@@ -46,8 +46,8 @@ resource "aws_security_group_rule" "user_to_lb_http_sgs" {
   type              = "ingress"
   protocol          = "tcp"
 
-  from_port = local.http_port
-  to_port   = local.http_port
+  from_port = var.http_port
+  to_port   = var.http_port
 
   source_security_group_id = var.restricted_sg
 }
@@ -59,8 +59,8 @@ resource "aws_security_group_rule" "user_to_lb_https_cidrs" {
   type              = "ingress"
   protocol          = "tcp"
 
-  from_port = local.https_port
-  to_port   = local.https_port
+  from_port = var.https_port
+  to_port   = var.https_port
 
   cidr_blocks = var.restricted_cidr_blocks
 }
@@ -72,8 +72,8 @@ resource "aws_security_group_rule" "user_to_lb_https_sgs" {
   type              = "ingress"
   protocol          = "tcp"
 
-  from_port = local.https_port
-  to_port   = local.https_port
+  from_port = var.https_port
+  to_port   = var.https_port
 
   source_security_group_id = var.restricted_sg
 }

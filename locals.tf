@@ -1,8 +1,5 @@
 locals {
   name                                 = var.name != null ? var.name : var.product
-  http_port                            = 80
-  https_port                           = 443
-  route_priority                       = 10
   container_name                       = var.container_name != null ? var.container_name : "app"
   task_family                          = var.task_family != null ? var.task_family : local.name
   load_balancer_name                   = var.load_balancer_name != null ? var.load_balancer_name : local.name
@@ -30,11 +27,11 @@ locals {
   create_http_listeners                = local.create_lb && var.load_balancer_type == "application"
   create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && !var.is_hosted_zone_private
   only_create_http_listener            = local.create_http_listeners && !local.create_https_listeners
-  create_nlb_listeners                 = local.create_lb && !local.create_http_listeners
+  create_nlb_listeners                 = local.create_lb && !local.create_http_listeners && var.nlb_protocol != "TCP"
+  create_nlb_tcp_listeners             = local.create_lb && var.load_balancer_type == "network" && var.nlb_protocol == "TCP" && var.tcp_port != null
   http_application_rule_count          = local.only_create_http_listener ? length(local.aliases) : 0
   https_application_rule_count         = local.create_https_listeners ? length(local.aliases) : 0
   create_lb                            = !local.create_virtual_node && var.create_lb
-  create_target_group                  = local.create_lb
   create_cidr_access_rule              = length(var.restricted_cidr_blocks) > 0
   create_sg_access_rule                = var.restricted_sg != null
   create_nlb_cidr_access_rule          = local.create_lb && !local.create_lb_sg && local.create_cidr_access_rule
