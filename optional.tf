@@ -449,3 +449,9 @@ variable "route_priority" {
   default     = 10
   type        = number
 }
+
+variable "create_attach_eip_to_nlb" {
+  description = "Create EIPs for each subnet and attach them to the NLB (public only)"
+  default     = false
+  type        = bool
+}

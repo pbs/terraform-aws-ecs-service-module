@@ -1,7 +1,7 @@
 resource "aws_lb" "lb" {
   count                            = local.create_lb ? 1 : 0
   name                             = local.load_balancer_name
-  subnets                          = local.subnets
+  subnets                          = length(local.nlb_eips) == 0 ? local.subnets : []
   security_groups                  = local.lb_security_groups
   idle_timeout                     = var.idle_timeout
   enable_cross_zone_load_balancing = var.enable_cross_zone_load_balancing
@@ -10,6 +10,21 @@ resource "aws_lb" "lb" {
   internal = local.internal
 
   load_balancer_type = var.load_balancer_type
+
+  dynamic "subnet_mapping" {
+    for_each = toset(local.nlb_eips)
+    content {
+      subnet_id     = subnet_mapping.value
+      allocation_id = aws_eip.nlb[subnet_mapping.key].allocation_id
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      subnets,
+      subnet_mapping
+    ]
+  }
 
   tags = merge(
     local.tags,
@@ -169,4 +184,10 @@ resource "aws_lb_listener_rule" "https_application_rule" {
       values = [element(local.aliases, count.index)]
     }
   }
+}
+
+# EIP for NLB
+resource "aws_eip" "nlb" {
+  for_each = toset(local.nlb_eips)
+  domain   = "vpc"
 }
