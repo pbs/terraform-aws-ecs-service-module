@@ -65,7 +65,7 @@ output "https_listener_arn" {
 
 output "lb_sg" {
   description = "Load balancer security group"
-  value       = local.create_lb_sg ? one(aws_security_group.lb_sg[*].id) : null
+  value       = local.create_lb ? one(aws_security_group.lb_sg[*].id) : null
 }
 
 output "lb_arn" {

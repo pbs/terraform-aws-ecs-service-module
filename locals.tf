@@ -23,22 +23,23 @@ locals {
   aliases                              = local.create_virtual_node ? [] : var.aliases != null ? var.aliases : ["${local.name}.${local.null_safe_hosted_zone}"]
   app_dns_record_count                 = local.create_lb ? length(local.cnames) : 0
   domain_name                          = !local.create_lb ? null : local.app_dns_record_count == 0 ? one(aws_lb.lb[*].dns_name) : one(aws_route53_record.app[*].fqdn)
-  create_lb_sg                         = local.create_lb && var.load_balancer_type == "application"
   create_http_listeners                = local.create_lb && var.load_balancer_type == "application"
   create_https_listeners               = local.create_lb && var.load_balancer_type == "application" && !var.is_hosted_zone_private
   only_create_http_listener            = local.create_http_listeners && !local.create_https_listeners
-  create_nlb_listeners                 = local.create_lb && !local.create_http_listeners && var.nlb_protocol != "TCP"
-  create_nlb_tcp_listeners             = local.create_lb && var.load_balancer_type == "network" && var.nlb_protocol == "TCP" && var.tcp_port != null
+  create_nlb                           = local.create_lb && var.load_balancer_type == "network"
+  create_nlb_listeners                 = local.create_nlb && var.nlb_protocol != "TCP"
+  create_nlb_tcp_listeners             = local.create_nlb && var.nlb_protocol == "TCP" && var.tcp_port != null
+  nlb_eips                             = local.create_nlb && var.create_attach_eip_to_nlb == true ? local.subnets : []
   http_application_rule_count          = local.only_create_http_listener ? length(local.aliases) : 0
   https_application_rule_count         = local.create_https_listeners ? length(local.aliases) : 0
   create_lb                            = !local.create_virtual_node && var.create_lb
   create_cidr_access_rule              = length(var.restricted_cidr_blocks) > 0
   create_sg_access_rule                = var.restricted_sg != null
-  create_nlb_cidr_access_rule          = local.create_lb && !local.create_lb_sg && local.create_cidr_access_rule
-  create_nlb_sg_access_rule            = local.create_lb && !local.create_lb_sg && local.create_sg_access_rule
+  create_nlb_cidr_access_rule          = local.create_nlb && local.create_cidr_access_rule
+  create_nlb_sg_access_rule            = local.create_nlb && local.create_sg_access_rule
   create_virtual_node_cidr_access_rule = local.create_virtual_node && local.create_cidr_access_rule
   create_virtual_node_sg_access_rule   = local.create_virtual_node && local.create_sg_access_rule
-  lb_security_groups                   = local.create_lb_sg ? [one(aws_security_group.lb_sg[*].id)] : null
+  lb_security_groups                   = local.create_lb ? [one(aws_security_group.lb_sg[*].id)] : null
   container_protocol                   = var.load_balancer_type == "application" ? var.container_protocol : "TCP"
   healthcheck_protocol                 = var.healthcheck_protocol != null ? var.healthcheck_protocol : local.container_protocol
   healthcheck_matcher                  = var.load_balancer_type == "application" ? var.healthcheck_matcher : null
