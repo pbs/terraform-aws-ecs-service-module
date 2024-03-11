@@ -3,7 +3,7 @@ terraform {
   required_providers {
     # tflint-ignore: terraform_unused_required_providers
     aws = {
-      version = ">= 4.5.0"
+      version = ">= 5.30.0"
     }
   }
 }
