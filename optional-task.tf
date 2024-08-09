@@ -134,6 +134,24 @@ variable "runtime_platform" {
   })
 }
 
+variable "log_group_name" {
+  description = "(optional) name for the log group"
+  default     = null
+  type        = string
+}
+
+variable "log_group_class" {
+  description = "(Optional) log class of the log group. Possible values are: STANDARD or INFREQUENT_ACCESS"
+  default     = "INFREQUENT_ACCESS"
+  type        = string
+}
+
+variable "retention_in_days" {
+  description = "(optional) log retention in days"
+  default     = 7
+  type        = number
+}
+
 variable "awslogs_driver_mode" {
   description = "(optional) awslogs driver mode. Set this to `blocking` if you would rather have an outage than lose logs."
   default     = "non-blocking"
