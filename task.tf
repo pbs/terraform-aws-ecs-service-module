@@ -43,6 +43,9 @@ module "task" {
 
   runtime_platform = var.runtime_platform
 
+  log_group_name      = var.log_group_name
+  log_group_class     = var.log_group_class
+  retention_in_days   = var.retention_in_days
   awslogs_driver_mode = var.awslogs_driver_mode
 
   organization = var.organization
