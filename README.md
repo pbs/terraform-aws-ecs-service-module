@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.1
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.1"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -49,7 +49,7 @@ This module will create an ECS cluster if one is not provided. If you would like
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.1"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -73,7 +73,7 @@ module "service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`6.0.1`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -103,7 +103,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cluster"></a> [cluster](#module\_cluster) | github.com/pbs/terraform-aws-ecs-cluster-module | 1.0.2 |
-| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.0.0 |
+| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.0.2 |
 
 ## Resources
 
@@ -162,6 +162,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
+| <a name="input_PYTHONPATH"></a> [PYTHONPATH](#input\_PYTHONPATH) | (optional) PYTHONPATH of the application; required by the cwagent sidecar container | `string` | `":"` | no |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | ARN of the ACM certificate to use for the service. If null, one will be guessed based on the primary hosted zone of the service. | `string` | `null` | no |
 | <a name="input_alb_ssl_policy"></a> [alb\_ssl\_policy](#input\_alb\_ssl\_policy) | SSL policy to use for an Application Load Balancer application. | `string` | `"ELBSecurityPolicy-2016-08"` | no |
 | <a name="input_aliases"></a> [aliases](#input\_aliases) | CNAME(s) that are allowed to be used for this service. Default is `product`.`hosted_zone`. e.g. [product.example.com] --> [product.example.com] | `list(string)` | `null` | no |
@@ -194,6 +195,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_deployment_minimum_healthy_percent"></a> [deployment\_minimum\_healthy\_percent](#input\_deployment\_minimum\_healthy\_percent) | The lower limit (as a percentage of the service's desiredCount) of the number of running tasks that must remain running and healthy in a service during a deployment | `number` | `100` | no |
 | <a name="input_dns_evaluate_target_health"></a> [dns\_evaluate\_target\_health](#input\_dns\_evaluate\_target\_health) | evaluate health of endpoints by querying DNS records | `bool` | `false` | no |
 | <a name="input_efs_mounts"></a> [efs\_mounts](#input\_efs\_mounts) | (optional) efs mount set of objects. Components should include dns\_name, container\_mount\_point, efs\_mount\_point | <pre>set(object({<br>    file_system_id = string<br>    efs_path       = string<br>    container_path = string<br>  }))</pre> | `[]` | no |
+| <a name="input_enable_application_signals"></a> [enable\_application\_signals](#input\_enable\_application\_signals) | (optional) if set to true, will enable CW Application Signals | `bool` | `false` | no |
 | <a name="input_enable_circuit_breaker"></a> [enable\_circuit\_breaker](#input\_enable\_circuit\_breaker) | Enables ECS circuit breaker | `bool` | `true` | no |
 | <a name="input_enable_circuit_breaker_rollback"></a> [enable\_circuit\_breaker\_rollback](#input\_enable\_circuit\_breaker\_rollback) | Enables ECS circuit breaker rollback | `bool` | `true` | no |
 | <a name="input_enable_cross_zone_load_balancing"></a> [enable\_cross\_zone\_load\_balancing](#input\_enable\_cross\_zone\_load\_balancing) | Enable cross-zone load balancing for NLBs. ALB have this enabled by default and cannot be disabled. | `string` | `true` | no |
