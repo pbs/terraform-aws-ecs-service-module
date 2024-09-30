@@ -157,3 +157,17 @@ variable "awslogs_driver_mode" {
   default     = "non-blocking"
   type        = string
 }
+
+# Clowdwatch Application Signals
+variable "enable_application_signals" {
+  description = "(optional) if set to true, will enable CW Application Signals"
+  default     = false
+  type        = bool
+}
+
+variable "PYTHONPATH" {
+  description = "(optional) PYTHONPATH of the application; required by the cwagent sidecar container"
+  type        = string
+
+  default = ":"
+}
