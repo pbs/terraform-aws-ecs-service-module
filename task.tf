@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.0.0"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.0.2"
 
   name = local.name
 
@@ -26,7 +26,7 @@ module "task" {
   virtual_node = var.virtual_node
 
   ssm_path = var.ssm_path
-  env_vars = var.env_vars
+  env_vars = local.env_vars
 
   efs_mounts = var.efs_mounts
 
@@ -34,6 +34,8 @@ module "task" {
   newrelic_secret_name = var.newrelic_secret_name
 
   use_xray_sidecar = var.use_xray_sidecar
+
+  use_cwagent_sidecar = var.enable_application_signals
 
   envoy_tag = var.envoy_tag
 

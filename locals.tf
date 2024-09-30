@@ -57,6 +57,63 @@ locals {
 
   creator = "terraform"
 
+  application_signals_envs = var.enable_application_signals == false ? [] : [
+    {
+      "name" : "OTEL_RESOURCE_ATTRIBUTES",
+      "value" : "service.name=${var.product},deployment.environment=${var.environment}"
+    },
+    {
+      "name" : "PYTHONPATH",
+      "value" : var.PYTHONPATH
+    },
+    {
+      "name" : "OTEL_EXPORTER_OTLP_PROTOCOL",
+      "value" : "http/protobuf"
+    },
+    {
+      "name" : "OTEL_TRACES_SAMPLER",
+      "value" : "xray"
+    },
+    {
+      "name" : "OTEL_TRACES_SAMPLER_ARG",
+      "value" : "endpoint=http://localhost:2000"
+    },
+    {
+      "name" : "OTEL_LOGS_EXPORTER",
+      "value" : "none"
+    },
+    {
+      "name" : "OTEL_PYTHON_DISTRO",
+      "value" : "aws_distro"
+    },
+    {
+      "name" : "OTEL_PYTHON_CONFIGURATOR",
+      "value" : "aws_configurator"
+    },
+    {
+      "name" : "OTEL_EXPORTER_OTLP_TRACES_ENDPOINT",
+      "value" : "http://localhost:4316/v1/traces"
+    },
+    {
+      "name" : "OTEL_AWS_APPLICATION_SIGNALS_EXPORTER_ENDPOINT",
+      "value" : "http://localhost:4316/v1/metrics"
+    },
+    {
+      "name" : "OTEL_METRICS_EXPORTER",
+      "value" : "none"
+    },
+    {
+      "name" : "OTEL_AWS_APPLICATION_SIGNALS_ENABLED",
+      "value" : "true"
+    }
+  ]
+
+  # setunion() cannot use empty sets 
+  env_vars = var.enable_application_signals == false ? var.env_vars : var.env_vars == null || var.env_vars == [] ? local.application_signals_envs : setunion(
+    local.application_signals_envs,
+    var.env_vars
+  )
+
   defaulted_tags = merge(
     var.tags,
     {
