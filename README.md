@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.2
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.2"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -49,7 +49,7 @@ This module will create an ECS cluster if one is not provided. If you would like
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.0.2"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -73,7 +73,7 @@ module "service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`6.0.2`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -288,6 +288,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="output_container_name"></a> [container\_name](#output\_container\_name) | Name of the main container used by this service |
 | <a name="output_domain_name"></a> [domain\_name](#output\_domain\_name) | One domain name that will resolve to this service. Might not be a valid alias. |
 | <a name="output_https_listener_arn"></a> [https\_listener\_arn](#output\_https\_listener\_arn) | ARN of the HTTPS listener. Useful when adding extra ACM certificates to the listener. |
+| <a name="output_iam_task_role_arn"></a> [iam\_task\_role\_arn](#output\_iam\_task\_role\_arn) | IAM role ARN associated with a task defition, if task defition is created by the ecs service module |
 | <a name="output_image_tag"></a> [image\_tag](#output\_image\_tag) | Tag of the image used by this service |
 | <a name="output_lb_arn"></a> [lb\_arn](#output\_lb\_arn) | Load balancer ARN |
 | <a name="output_lb_dns_name"></a> [lb\_dns\_name](#output\_lb\_dns\_name) | Load balancer DNS Name |
