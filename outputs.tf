@@ -82,3 +82,8 @@ output "lb_zone_id" {
   description = "Load balancer Zone Id"
   value       = local.create_lb ? one(aws_lb.lb[*].zone_id) : null
 }
+
+output "iam_task_role_arn" {
+  description = "IAM role ARN associated with a task defition, if task defition is created by the ecs service module"
+  value = var.task_def_arn == null ? module.task[0].role_arn : "N/A"
+}
