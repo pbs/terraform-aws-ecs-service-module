@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.0
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.0"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -49,7 +49,7 @@ This module will create an ECS cluster if one is not provided. If you would like
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.0"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -73,7 +73,7 @@ module "service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`6.1.0`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -103,7 +103,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cluster"></a> [cluster](#module\_cluster) | github.com/pbs/terraform-aws-ecs-cluster-module | 1.0.2 |
-| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.0.2 |
+| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.0.3 |
 
 ## Resources
 
@@ -162,7 +162,6 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_organization"></a> [organization](#input\_organization) | Organization using this module. Used to prefix tags so that they are easily identified as being from your organization | `string` | n/a | yes |
 | <a name="input_product"></a> [product](#input\_product) | Tag used to group resources according to product | `string` | n/a | yes |
 | <a name="input_repo"></a> [repo](#input\_repo) | Tag used to point to the repo using this module | `string` | n/a | yes |
-| <a name="input_PYTHONPATH"></a> [PYTHONPATH](#input\_PYTHONPATH) | (optional) PYTHONPATH of the application; required by the cwagent sidecar container | `string` | `":"` | no |
 | <a name="input_acm_arn"></a> [acm\_arn](#input\_acm\_arn) | ARN of the ACM certificate to use for the service. If null, one will be guessed based on the primary hosted zone of the service. | `string` | `null` | no |
 | <a name="input_alb_ssl_policy"></a> [alb\_ssl\_policy](#input\_alb\_ssl\_policy) | SSL policy to use for an Application Load Balancer application. | `string` | `"ELBSecurityPolicy-2016-08"` | no |
 | <a name="input_aliases"></a> [aliases](#input\_aliases) | CNAME(s) that are allowed to be used for this service. Default is `product`.`hosted_zone`. e.g. [product.example.com] --> [product.example.com] | `list(string)` | `null` | no |
@@ -241,6 +240,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_propagate_tags"></a> [propagate\_tags](#input\_propagate\_tags) | Specifies whether to propagate the tags from the task definition or the service to the tasks | `string` | `"SERVICE"` | no |
 | <a name="input_public_service"></a> [public\_service](#input\_public\_service) | Service should be provisioned in public subnet. Ignored if subnets defined. | `bool` | `false` | no |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | Public subnets for the service. If null, public subnets will be looked up based on environment tag and will be selected based on public\_service. | `list(string)` | `null` | no |
+| <a name="input_pythonpath"></a> [pythonpath](#input\_pythonpath) | (optional) PYTHONPATH of the application; required by the cwagent sidecar container | `string` | `":"` | no |
 | <a name="input_requires_compatibilities"></a> [requires\_compatibilities](#input\_requires\_compatibilities) | (optional) capabilities that the task requires | `set(string)` | <pre>[<br>  "FARGATE"<br>]</pre> | no |
 | <a name="input_restricted_cidr_blocks"></a> [restricted\_cidr\_blocks](#input\_restricted\_cidr\_blocks) | CIDR blocks to receive restricted service access. If empty, no CIDRs will be allowed to connect. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_restricted_sg"></a> [restricted\_sg](#input\_restricted\_sg) | SG to receive restricted service access. If null, no sg will be configured to connect | `string` | `null` | no |
