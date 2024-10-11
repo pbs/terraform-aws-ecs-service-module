@@ -64,7 +64,7 @@ locals {
     },
     {
       "name" : "PYTHONPATH",
-      "value" : var.PYTHONPATH
+      "value" : var.pythonpath
     },
     {
       "name" : "OTEL_EXPORTER_OTLP_PROTOCOL",
@@ -109,7 +109,7 @@ locals {
   ]
 
   # setunion() cannot use empty sets 
-  env_vars = var.enable_application_signals == false ? var.env_vars : var.env_vars == null || var.env_vars == [] ? local.application_signals_envs : setunion(
+  env_vars = var.enable_application_signals == false ? var.env_vars : var.env_vars == null || length(var.env_vars) == 0 ? local.application_signals_envs : setunion(
     local.application_signals_envs,
     var.env_vars
   )

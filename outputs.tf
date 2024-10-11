@@ -85,5 +85,5 @@ output "lb_zone_id" {
 
 output "iam_task_role_arn" {
   description = "IAM role ARN associated with a task defition, if task defition is created by the ecs service module"
-  value = var.task_def_arn == null ? module.task[0].role_arn : "N/A"
+  value       = var.task_def_arn == null ? module.task[0].role_arn : "N/A"
 }
