@@ -165,7 +165,7 @@ variable "enable_application_signals" {
   type        = bool
 }
 
-variable "PYTHONPATH" {
+variable "pythonpath" {
   description = "(optional) PYTHONPATH of the application; required by the cwagent sidecar container"
   type        = string
 
