@@ -337,6 +337,12 @@ variable "role_policy_json" {
   type        = string
 }
 
+variable "task_execution_role_policy_json" {
+  description = "IAM policy to attach to task execution role used for this task"
+  default     = null
+  type        = string
+}
+
 variable "enable_execute_command" {
   description = "Enables `ecs exec`. If null, will enable if not on prod"
   default     = null
