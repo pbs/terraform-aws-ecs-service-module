@@ -13,7 +13,8 @@ module "task" {
   mesh_name       = var.mesh_name
   virtual_gateway = var.virtual_gateway
 
-  role_policy_json = var.role_policy_json
+  role_policy_json                = var.role_policy_json
+  task_execution_role_policy_json = var.task_execution_role_policy_json
 
   service_name   = local.name
   task_family    = local.task_family
