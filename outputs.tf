@@ -91,9 +91,11 @@ output "iam_task_role_arn" {
 output "chip_test" {
   description = "Don't mind me, I'm a test variable :D"
   value = {
-    public_service  = local.public_service
-    private_subnets = local.private_subnets
-    public_subnets  = local.public_subnets
-    subnets         = local.subnets
+    public_service         = local.public_service
+    private_subnets        = local.private_subnets
+    public_subnets         = local.public_subnets
+    subnets                = local.subnets
+    internal               = local.internal
+    is_hosted_zone_private = var.is_hosted_zone_private
   }
 }
