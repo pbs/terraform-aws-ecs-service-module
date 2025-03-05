@@ -87,3 +87,13 @@ output "iam_task_role_arn" {
   description = "IAM role ARN associated with a task defition, if task defition is created by the ecs service module"
   value       = var.task_def_arn == null ? module.task[0].role_arn : "N/A"
 }
+
+output "chip_test" {
+  description = "Don't mind me, I'm a test variable :D"
+  value = {
+    public_service  = local.public_service
+    private_subnets = local.private_subnets
+    public_subnets  = local.public_subnets
+    subnets         = local.subnets
+  }
+}
