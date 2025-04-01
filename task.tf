@@ -28,6 +28,7 @@ module "task" {
 
   ssm_path = var.ssm_path
   env_vars = local.env_vars
+  secrets  = var.secrets
 
   efs_mounts = var.efs_mounts
 
