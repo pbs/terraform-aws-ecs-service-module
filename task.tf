@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.0.3"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.1.0"
 
   name = local.name
 
@@ -28,6 +28,7 @@ module "task" {
 
   ssm_path = var.ssm_path
   env_vars = local.env_vars
+  secrets  = var.secrets
 
   efs_mounts = var.efs_mounts
 

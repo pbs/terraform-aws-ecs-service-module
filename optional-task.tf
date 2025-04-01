@@ -104,6 +104,16 @@ variable "env_vars" {
   type        = set(map(any))
 }
 
+
+variable "secrets" {
+  description = "(optional) secrets to be passed to the container. By default none is passed"
+  default     = []
+  type        = set(object({
+    name  = string
+    valueFrom = string
+  }))
+}
+
 variable "use_xray_sidecar" {
   description = "(optional) if set to null, will use the sidecar to trace the task if envoy is used, as that automatically implements tracing configs."
   default     = null
