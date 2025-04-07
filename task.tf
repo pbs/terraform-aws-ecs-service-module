@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.1.0"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.1.2"
 
   name = local.name
 
@@ -13,8 +13,10 @@ module "task" {
   mesh_name       = var.mesh_name
   virtual_gateway = var.virtual_gateway
 
-  role_policy_json                = var.role_policy_json
-  task_execution_role_policy_json = var.task_execution_role_policy_json
+  role_policy_json                      = var.role_policy_json
+  task_execution_role_policy_json       = var.task_execution_role_policy_json
+  extra_role_policy_json                = var.extra_role_policy_json
+  extra_task_execution_role_policy_json = var.extra_task_execution_role_policy_json
 
   service_name   = local.name
   task_family    = local.task_family
