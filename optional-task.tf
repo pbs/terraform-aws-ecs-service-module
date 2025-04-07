@@ -108,8 +108,8 @@ variable "env_vars" {
 variable "secrets" {
   description = "(optional) secrets to be passed to the container. By default none is passed"
   default     = []
-  type        = set(object({
-    name  = string
+  type = set(object({
+    name      = string
     valueFrom = string
   }))
 }
