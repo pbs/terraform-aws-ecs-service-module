@@ -40,6 +40,24 @@ resource "aws_appautoscaling_policy" "memory_autoscaling_policy" {
   }
 }
 
+resource "aws_appautoscaling_policy" "requests_count_autoscaling_policy" {
+  count              = var.scaling_approach == "target_tracking" && var.requests_count_scaling && local.create_lb ? 1 : 0
+  name               = "${local.name}-requests-count-scaling-policy"
+  policy_type        = "TargetTrackingScaling"
+  resource_id        = aws_appautoscaling_target.autoscaling_target.resource_id
+  scalable_dimension = aws_appautoscaling_target.autoscaling_target.scalable_dimension
+  service_namespace  = aws_appautoscaling_target.autoscaling_target.service_namespace
+
+  target_tracking_scaling_policy_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ALBRequestCountPerTarget"
+      resource_label         = "${aws_lb.lb[0].arn_suffix}/${aws_lb_target_group.target_group[0].arn_suffix}"
+    }
+
+    target_value = var.target_requests_count_per_target
+  }
+}
+
 resource "aws_appautoscaling_policy" "scale_up_policy" {
   count              = var.scaling_approach == "step_scaling" && var.requests_count_scaling == false ? 1 : 0
   name               = "${local.name}-scale-up-policy"

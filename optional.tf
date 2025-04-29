@@ -86,6 +86,12 @@ variable "target_memory_utilization" {
   type        = number
 }
 
+variable "target_requests_count_per_target" {
+  description = "Target requests count per targe for scaling"
+  default     = 800
+  type        = number
+}
+
 variable "scale_up_cpu_threshold" {
   description = "Threshold at which CPU utilization triggers a scale up event"
   default     = 80
