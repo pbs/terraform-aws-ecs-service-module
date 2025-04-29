@@ -86,6 +86,12 @@ variable "target_memory_utilization" {
   type        = number
 }
 
+variable "target_requests_count_per_target" {
+  description = "Target requests count per targe for scaling"
+  default     = 800
+  type        = number
+}
+
 variable "scale_up_cpu_threshold" {
   description = "Threshold at which CPU utilization triggers a scale up event"
   default     = 80
@@ -108,6 +114,24 @@ variable "scale_down_memory_threshold" {
   description = "Threshold at which Memory utilization triggers a scale down event"
   default     = 20
   type        = number
+}
+
+variable "scale_up_requests_count_per_target" {
+  description = "Threshold at which Request count per target triggers a scale up event"
+  default     = 140
+  type        = number
+}
+
+variable "scale_down_requests_count_per_target" {
+  description = "Threshold at which Request count per target triggers a scale down event"
+  default     = 70
+  type        = number
+}
+
+variable "requests_count_scaling" {
+  description = "Use RequestCountPerTarget CloudWatch metric for scaling"
+  default     = false
+  type        = bool
 }
 
 variable "container_protocol" {
