@@ -103,7 +103,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_cluster"></a> [cluster](#module\_cluster) | github.com/pbs/terraform-aws-ecs-cluster-module | 1.0.2 |
-| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.0.3 |
+| <a name="module_task"></a> [task](#module\_task) | github.com/pbs/terraform-aws-ecs-task-definition-module | 2.1.3 |
 
 ## Resources
 
@@ -206,6 +206,8 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_entrypoint"></a> [entrypoint](#input\_entrypoint) | (optional) entrypoint to run in the container as an array. e.g. ["sleep", "10"]. If null, does not set an entrypoint in the task definition. | `list(string)` | `null` | no |
 | <a name="input_env_vars"></a> [env\_vars](#input\_env\_vars) | (optional) environment variables to be passed to the container. By default, only passes SSM\_PATH | `set(map(any))` | `null` | no |
 | <a name="input_envoy_tag"></a> [envoy\_tag](#input\_envoy\_tag) | (optional) tag for envoy. Update periodically if using App Mesh. | `string` | `"v1.23.1.0-prod"` | no |
+| <a name="input_extra_role_policy_json"></a> [extra\_role\_policy\_json](#input\_extra\_role\_policy\_json) | (optional) Extra IAM policy to attach to role used for this task without replacing defaults | `string` | `null` | no |
+| <a name="input_extra_task_execution_role_policy_json"></a> [extra\_task\_execution\_role\_policy\_json](#input\_extra\_task\_execution\_role\_policy\_json) | (optional) Extra IAM policy to attach to task execution role used for this task without replacing defaults | `string` | `null` | no |
 | <a name="input_healthcheck_healthy_threshold"></a> [healthcheck\_healthy\_threshold](#input\_healthcheck\_healthy\_threshold) | The number of consecutive health checks successes required before considering an unhealthy target healthy | `number` | `3` | no |
 | <a name="input_healthcheck_interval"></a> [healthcheck\_interval](#input\_healthcheck\_interval) | The approximate amount of time, in seconds, between health checks of an individual target | `number` | `10` | no |
 | <a name="input_healthcheck_matcher"></a> [healthcheck\_matcher](#input\_healthcheck\_matcher) | The HTTP codes to use when checking for a successful response from a target | `number` | `200` | no |
@@ -250,7 +252,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_restricted_cidr_blocks"></a> [restricted\_cidr\_blocks](#input\_restricted\_cidr\_blocks) | CIDR blocks to receive restricted service access. If empty, no CIDRs will be allowed to connect. | `list(string)` | <pre>[<br>  "0.0.0.0/0"<br>]</pre> | no |
 | <a name="input_restricted_sg"></a> [restricted\_sg](#input\_restricted\_sg) | SG to receive restricted service access. If null, no sg will be configured to connect | `string` | `null` | no |
 | <a name="input_retention_in_days"></a> [retention\_in\_days](#input\_retention\_in\_days) | (optional) log retention in days | `number` | `7` | no |
-| <a name="input_role_policy_json"></a> [role\_policy\_json](#input\_role\_policy\_json) | the policy to apply for this service. Defaults to a valid ECS role policy if null. | `string` | `null` | no |
+| <a name="input_role_policy_json"></a> [role\_policy\_json](#input\_role\_policy\_json) | (optional) IAM policy to attach to role used for this task and replace defaults | `string` | `null` | no |
 | <a name="input_route_priority"></a> [route\_priority](#input\_route\_priority) | Starting route priority, incremented by each listener rule | `number` | `10` | no |
 | <a name="input_runtime_platform"></a> [runtime\_platform](#input\_runtime\_platform) | (optional) Runtime platform for the task. Defaults to LINUX operating system family w/ CPU architecture x86\_64. | <pre>object({<br>    operating_system_family = optional(string, "LINUX")<br>    cpu_architecture        = optional(string, "X86_64")<br>  })</pre> | <pre>{<br>  "cpu_architecture": "X86_64",<br>  "operating_system_family": "LINUX"<br>}</pre> | no |
 | <a name="input_scale_down_adjustment"></a> [scale\_down\_adjustment](#input\_scale\_down\_adjustment) | Tasks to add on scale up | `number` | `-1` | no |
@@ -266,6 +268,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_scaling_approach"></a> [scaling\_approach](#input\_scaling\_approach) | Approach to take with scaling. Valid values are `target_tracking` and `step_scaling` | `string` | `"target_tracking"` | no |
 | <a name="input_scaling_evaluation_period"></a> [scaling\_evaluation\_period](#input\_scaling\_evaluation\_period) | Scaling evaluation period in seconds | `number` | `60` | no |
 | <a name="input_scaling_evaluation_periods"></a> [scaling\_evaluation\_periods](#input\_scaling\_evaluation\_periods) | Number of periods over which data is compared to the threshold | `number` | `1` | no |
+| <a name="input_secrets"></a> [secrets](#input\_secrets) | (optional) secrets to be passed to the container. By default none is passed | <pre>set(object({<br>    name      = string<br>    valueFrom = string<br>  }))</pre> | `[]` | no |
 | <a name="input_service_healthcheck_healthy_threshold"></a> [service\_healthcheck\_healthy\_threshold](#input\_service\_healthcheck\_healthy\_threshold) | The number of successful checks before a service is considered healthy | `number` | `2` | no |
 | <a name="input_service_healthcheck_interval"></a> [service\_healthcheck\_interval](#input\_service\_healthcheck\_interval) | The time, in milliseconds, between health checks of the service | `number` | `6000` | no |
 | <a name="input_service_healthcheck_timeout"></a> [service\_healthcheck\_timeout](#input\_service\_healthcheck\_timeout) | The time, in milliseconds, before a timeout on the health check of the service | `number` | `3000` | no |
@@ -278,6 +281,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_target_group_name"></a> [target\_group\_name](#input\_target\_group\_name) | Target group name. Will default to product if not defined. | `string` | `null` | no |
 | <a name="input_target_memory_utilization"></a> [target\_memory\_utilization](#input\_target\_memory\_utilization) | Target memory utilization for scaling | `number` | `50` | no |
 | <a name="input_task_def_arn"></a> [task\_def\_arn](#input\_task\_def\_arn) | Task definition ARN. If null, task will be created with default values, except that image\_repo and image\_tag may be defined. | `string` | `null` | no |
+| <a name="input_task_execution_role_policy_json"></a> [task\_execution\_role\_policy\_json](#input\_task\_execution\_role\_policy\_json) | (optional) IAM policy to attach to task execution role used for this task and replace defaults | `string` | `null` | no |
 | <a name="input_task_family"></a> [task\_family](#input\_task\_family) | (optional) task family for task. This is effectively the name of the task, without qualification of revision | `string` | `null` | no |
 | <a name="input_tcp_port"></a> [tcp\_port](#input\_tcp\_port) | NLB TCP port number. Ignored for application load balancers. | `number` | `null` | no |
 | <a name="input_use_xray_sidecar"></a> [use\_xray\_sidecar](#input\_use\_xray\_sidecar) | (optional) if set to null, will use the sidecar to trace the task if envoy is used, as that automatically implements tracing configs. | `bool` | `null` | no |
