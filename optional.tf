@@ -110,6 +110,24 @@ variable "scale_down_memory_threshold" {
   type        = number
 }
 
+variable "scale_up_requests_count_per_target" {
+  description = "Threshold at which Request count per target triggers a scale up event"
+  default     = 140
+  type        = number
+}
+
+variable "scale_down_requests_count_per_target" {
+  description = "Threshold at which Request count per target triggers a scale down event"
+  default     = 70
+  type        = number
+}
+
+variable "requests_count_scaling" {
+  description = "Use RequestCountPerTarget CloudWatch metric for scaling"
+  default     = false
+  type        = bool
+}
+
 variable "container_protocol" {
   description = "Protocol to use in connection to the container"
   default     = "HTTP"
