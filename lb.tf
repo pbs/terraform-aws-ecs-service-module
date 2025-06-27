@@ -52,7 +52,7 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_lb_listener" "http_redirect" {
-  count             = local.create_https_listeners ? 1 : 0
+  count             = local.create_https_listeners && var.http_redirect ? 1 : 0
   load_balancer_arn = aws_lb.lb[0].id
   port              = var.http_port
   protocol          = "HTTP"
@@ -65,6 +65,18 @@ resource "aws_lb_listener" "http_redirect" {
       protocol    = "HTTPS"
       status_code = "HTTP_301"
     }
+  }
+}
+
+resource "aws_lb_listener" "http_forward" {
+  count             = local.create_https_listeners && !var.http_redirect ? 1 : 0
+  load_balancer_arn = aws_lb.lb[0].id
+  port              = var.http_port
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group[0].arn
   }
 }
 
