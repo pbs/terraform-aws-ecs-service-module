@@ -5,7 +5,7 @@
 ### Using the Repo Source
 
 ```hcl
-github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.6
+github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z
 ```
 
 ### Alternative Installation Methods
@@ -26,7 +26,7 @@ Integrate this module like so:
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.6"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -49,7 +49,7 @@ This module will create an ECS cluster if one is not provided. If you would like
 
 ```hcl
 module "service" {
-  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=6.1.6"
+  source = "github.com/pbs/terraform-aws-ecs-service-module?ref=x.y.z"
 
   # Required
   hosted_zone = "example.com"
@@ -73,7 +73,7 @@ module "service" {
 
 If this repo is added as a subtree, then the version of the module should be close to the version shown here:
 
-`6.1.6`
+`x.y.z`
 
 Note, however that subtrees can be altered as desired within repositories.
 
@@ -128,6 +128,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | [aws_eip.nlb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
 | [aws_lb.lb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb) | resource |
 | [aws_lb_listener.http](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
+| [aws_lb_listener.http_forward](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.http_redirect](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.https](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
 | [aws_lb_listener.nlb](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener) | resource |
@@ -218,6 +219,7 @@ Below is automatically generated documentation on this Terraform module using [t
 | <a name="input_healthcheck_unhealthy_threshold"></a> [healthcheck\_unhealthy\_threshold](#input\_healthcheck\_unhealthy\_threshold) | The number of consecutive health check failures required before considering the target unhealthy | `number` | `3` | no |
 | <a name="input_hosted_zone"></a> [hosted\_zone](#input\_hosted\_zone) | Name of the hosted zone for DNS. e.g. hosted\_zone = example.org --> service.example.org. Based on the is\_hosted\_zone\_private, this is the primary or the private hosted zone. | `string` | `null` | no |
 | <a name="input_http_port"></a> [http\_port](#input\_http\_port) | HTTP port number. | `number` | `"80"` | no |
+| <a name="input_http_redirect"></a> [http\_redirect](#input\_http\_redirect) | Redirect HTTP traffic to HTTPS. If set to false, HTTP traffic will be forwarded to the target groups | `bool` | `true` | no |
 | <a name="input_https_port"></a> [https\_port](#input\_https\_port) | HTTPS port number. | `number` | `"443"` | no |
 | <a name="input_idle_timeout"></a> [idle\_timeout](#input\_idle\_timeout) | Idle timeout for the load balancer. If null, will use whatever the default is for the load balancer type. | `number` | `null` | no |
 | <a name="input_image_repo"></a> [image\_repo](#input\_image\_repo) | (optional) image repo. e.g. image\_repo = nginx --> nginx:image\_tag | `string` | `"nginx"` | no |
