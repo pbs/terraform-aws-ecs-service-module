@@ -1,6 +1,6 @@
 module "task" {
   count  = var.task_def_arn == null ? 1 : 0
-  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.1.3"
+  source = "github.com/pbs/terraform-aws-ecs-task-definition-module?ref=2.1.4"
 
   name = local.name
 
@@ -22,6 +22,7 @@ module "task" {
   task_family    = local.task_family
   container_name = var.container_name
   container_port = var.container_port
+  track_latest   = var.track_latest
 
   cpu_reservation    = var.cpu_reservation
   memory_reservation = var.memory_reservation

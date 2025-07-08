@@ -350,9 +350,9 @@ variable "https_port" {
 }
 
 variable "http_redirect" {
-    description = "Redirect HTTP traffic to HTTPS. If set to false, HTTP traffic will be forwarded to the target groups"
-    default     = true
-    type        = bool
+  description = "Redirect HTTP traffic to HTTPS. If set to false, HTTP traffic will be forwarded to the target groups"
+  default     = true
+  type        = bool
 }
 
 variable "tcp_port" {

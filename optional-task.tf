@@ -181,3 +181,9 @@ variable "pythonpath" {
 
   default = ":"
 }
+
+variable "track_latest" {
+  description = "(optional) Whether should track latest ACTIVE task definition on AWS or the one created with the resource stored in state."
+  default     = false
+  type        = bool
+}

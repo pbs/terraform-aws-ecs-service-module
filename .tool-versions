@@ -2,6 +2,6 @@ terraform      1.4.5
 golang         1.20.3
 ripgrep        13.0.0
 tflint         0.46.0
-github-cli     2.27.0
+github-cli     2.74.2
 fd             8.7.0
 terraform-docs 0.16.0
