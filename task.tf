@@ -22,6 +22,7 @@ module "task" {
   task_family    = local.task_family
   container_name = var.container_name
   container_port = var.container_port
+  track_latest   = var.track_latest
 
   cpu_reservation    = var.cpu_reservation
   memory_reservation = var.memory_reservation
