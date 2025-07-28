@@ -148,6 +148,7 @@ resource "aws_lb_target_group" "target_group" {
   protocol    = local.container_protocol
   vpc_id      = local.vpc_id
   target_type = "ip"
+  deregistration_delay = var.lb_deregistration_delay
 
   health_check {
     healthy_threshold   = var.healthcheck_healthy_threshold
