@@ -187,3 +187,9 @@ variable "track_latest" {
   default     = false
   type        = bool
 }
+
+variable "lb_deregistration_delay" {
+  description = "(optional) task deregistration delay for the load balancer"
+  default     = 300
+  type        = number
+}
